@@ -8,3 +8,12 @@
     padding : 3px 3px 3px 3px;
     margin : 5px 5px 0 5px;
 }
+
+.crumb {
+    display: inline-block;
+    padding : 5px 5px 5px 5px;
+    background-color: tomato;
+    float:left;
+    margin: 0 0 0 3px;
+    font-size: 14px;
+}

@@ -110,7 +110,7 @@
 
 
 	// module
-	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 2px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 20px;\r\n    padding : 3px 3px 3px 3px;\r\n    margin : 5px 5px 0 5px;\r\n}", ""]);
+	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 2px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 20px;\r\n    padding : 3px 3px 3px 3px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    background-color: tomato;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 14px;\r\n}", ""]);
 
 	// exports
 
@@ -428,6 +428,72 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(7);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Crumb = __webpack_require__(8);
+
+	var _Crumb2 = _interopRequireDefault(_Crumb);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CrumbContainer = (function (_React$Component) {
+	    _inherits(CrumbContainer, _React$Component);
+
+	    function CrumbContainer() {
+	        _classCallCheck(this, CrumbContainer);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbContainer).apply(this, arguments));
+	    }
+
+	    _createClass(CrumbContainer, [{
+	        key: 'render',
+	        value: function render() {
+
+	            var crumbs = [];
+
+	            for (var i = 0; i < 3; i++) {
+	                crumbs.push(_react2.default.createElement(_Crumb2.default, null));
+	            }
+
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'crumbsContainer' },
+	                crumbs
+	            );
+	        }
+	    }]);
+
+	    return CrumbContainer;
+	})(_react2.default.Component);
+
+	exports.default = CrumbContainer;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	module.exports = React;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -448,32 +514,30 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var CrumbContainer = (function (_React$Component) {
-	    _inherits(CrumbContainer, _React$Component);
+	var Crumb = (function (_React$Component) {
+	    _inherits(Crumb, _React$Component);
 
-	    function CrumbContainer() {
-	        _classCallCheck(this, CrumbContainer);
+	    function Crumb() {
+	        _classCallCheck(this, Crumb);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbContainer).apply(this, arguments));
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Crumb).apply(this, arguments));
 	    }
 
-	    _createClass(CrumbContainer, [{
+	    _createClass(Crumb, [{
 	        key: "render",
 	        value: function render() {
-	            return _react2.default.createElement("div", { className: "crumbsContainer" });
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "crumb" },
+	                "Crumb"
+	            );
 	        }
 	    }]);
 
-	    return CrumbContainer;
+	    return Crumb;
 	})(_react2.default.Component);
 
-	exports.default = CrumbContainer;
-
-/***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	module.exports = React;
+	exports.default = Crumb;
 
 /***/ }
 /******/ ]);
