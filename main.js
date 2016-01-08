@@ -3,7 +3,7 @@
  */
 console.log("webpack works");
 import ReactDOM from 'react-dom';
-import './style.css';
+import './css/style.css';
 
 //import Hello from './jsx/hello.jsx';
 //
