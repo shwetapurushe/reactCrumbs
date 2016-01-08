@@ -1,0 +1,10 @@
+.crumbsContainer{
+    border: solid 2px #619BD4;
+    border-radius : 7px;
+    /*display: inline-block;*/
+    overflow-x : auto;
+    width: 45%;
+    min-height: 20px;
+    padding : 3px 3px 3px 3px;
+    margin : 5px 5px 0 5px;
+}
