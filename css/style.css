@@ -1,5 +1,5 @@
 .crumbsContainer{
-    border: solid 2px #619BD4;
+    border: solid 1px #619BD4;
     border-radius : 7px;
     /*display: inline-block;*/
     overflow-x : auto;
@@ -12,8 +12,40 @@
 .crumb {
     display: inline-block;
     padding : 5px 5px 5px 5px;
-    background-color: tomato;
     float:left;
     margin: 0 0 0 3px;
     font-size: 14px;
+}
+
+.onHover {
+    background-color: #8edbff;
+    display: inline-block;
+    padding : 5px 5px 5px 5px;
+    float:left;
+    margin: 0 0 0 3px;
+    font-size: 14px;
+}
+
+.optionList{
+    border:solid 1px #619BD4;
+    width: 45%;
+    max-height : 500px;
+    border-radius : 7px;
+    padding : 5px 5px 5px 5px;
+    margin : 0 5px 5px 5px;
+    overflow-y : scroll;
+}
+
+.searchC{
+    width : 95%;
+    border: solid 1px #c8c2c4;
+    min-height: 20px;
+    margin : 0 5px 0px 5px;
+}
+
+.searchFilter{
+    width : 90%;
+    padding : 5px 5px 5px 5px;
+    min-height: 15px;
+    border: none;
 }
