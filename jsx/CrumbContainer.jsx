@@ -8,7 +8,7 @@ class CrumbContainer extends React.Component{
 
         var crumbs = [];
         var dd= ["bluewhat", "blue", "qu", "aa", "anbalagan"];
-        //console.log("in crumb conatiner");
+        //console.log("in crumb continer");
         for(var i = 0; i < 3; i++) {
             crumbs.push(<Crumb/>);
         }
