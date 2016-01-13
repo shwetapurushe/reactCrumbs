@@ -3,11 +3,28 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>DataCrumbs</title>
+    <link href="weave-html/c3.css" rel="stylesheet" type="text/css">
+    <link href="weave-html/ol.css" rel="stylesheet" type="text/css">
+    <link href="weave-html/ol-custom.css" rel="stylesheet" type="text/css">
+    <link href="weave-html/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="weave-html/datagrid.css" rel="stylesheet" type="text/css">
+    <link href="weave-html/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="weave-html/react-bootstrap-table-all.min.css">
+    <link href="weave-html/weave.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <div id = "content"></div>
-    <script src="node_modules/react/dist/react.min.js"></script>
+    <!-- REACT--->
+    <script src="node_modules/react/dist/react.js"></script>
     <script src="node_modules/react-dom/dist/react-dom.js"></script>
+
+    <!--Weave libraries-->
+    <script src="weavejs/WeaveJS.js"></script>
+    <script>new WeaveJS().start();</script>
+    <script src="weave-html/libs.js"></script>
+    <script src="weave-html/index.js"></script>
+    <div id="content"></div>
+    <div id="weaveElt" style="height: 700px; width : 100%"></div>
+    <!-- react crumb bundle--->
     <script src="dist/bundle.js"></script>
 </body>
 </html>
