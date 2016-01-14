@@ -6,7 +6,12 @@ var webpack = require('webpack');
 
 module.exports ={
     entry : './main.js',
-    output : {path: __dirname + "/dist", filename:'bundle.js'},
+    output : {
+                path: __dirname + "/dist",
+                filename:'bundle.js',
+                library: 'crumbs',
+                libraryTarget : 'umd'
+            },
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
@@ -27,7 +32,8 @@ module.exports ={
     },
     externals : {
         "react" : "React",
-        "react-dom": "ReactDOM"
+        "react-dom": "ReactDOM",
+        "Weave" : "Weave"
     }
 
 };

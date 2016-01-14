@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("ReactDOM"), require("Weave"), require("React"));
+	else if(typeof define === 'function' && define.amd)
+		define(["ReactDOM", "Weave", "React"], factory);
+	else if(typeof exports === 'object')
+		exports["crumbs"] = factory(require("ReactDOM"), require("Weave"), require("React"));
+	else
+		root["crumbs"] = factory(root["ReactDOM"], root["Weave"], root["React"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_8__) {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 
@@ -50,11 +60,19 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	__webpack_require__(2);
+	var _Weave = __webpack_require__(2);
 
-	var _CrumbContainer = __webpack_require__(6);
+	var _Weave2 = _interopRequireDefault(_Weave);
+
+	__webpack_require__(3);
+
+	var _CrumbContainer = __webpack_require__(7);
 
 	var _CrumbContainer2 = _interopRequireDefault(_CrumbContainer);
+
+	var _crumbComponentConfig = __webpack_require__(11);
+
+	var _crumbComponentConfig2 = _interopRequireDefault(_crumbComponentConfig);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -63,29 +81,56 @@
 	 */
 	console.log("webpack works");
 
-	//import Hello from './jsx/hello.jsx';
-	//
-	//ReactDOM.render(<Hello/>, document.getElementById("content"));
+	var busyStatus;
+	exports.CrumbConfig = _crumbComponentConfig2.default;
+	window.dashboard_weave = new _Weave2.default(); //separate weave core for sessioning entire dashboard
+	console.log("dashboard weave", window.dashboard_weave);
+	busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
+	//communicate between these two using path API
+	window.weave = new _Weave2.default(); //viz weave
 
+	loadWeaveFile("KSA.weave");
+	//rendering the data crumbs
 	_reactDom2.default.render(React.createElement(_CrumbContainer2.default, null), document.getElementById("content"));
+
+	function loadWeaveFile(filename) {
+	    //console.log("loading ", filename);
+	    busyStatus.value = true; //setting default value as false
+
+	    //loading the weave session state
+	    WeaveUI.loadLayout(weave, filename, "weaveElt", weaveReady);
+	};
+
+	//this callback runs when viz weave and sessions state loads
+	function weaveReady() {
+	    //console.log("weave is ready");
+	    busyStatus.value = false; //once weave is ready set to true
+	    console.log("dashboard weave2", window.dashboard_weave);
+	}
 
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
 
-	module.exports = ReactDOM;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(3);
+	var content = __webpack_require__(4);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(5)(content, {});
+	var update = __webpack_require__(6)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -102,10 +147,10 @@
 	}
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(4)();
+	exports = module.exports = __webpack_require__(5)();
 	// imports
 
 
@@ -116,7 +161,7 @@
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -171,7 +216,7 @@
 	};
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -425,7 +470,7 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -436,17 +481,21 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(7);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Crumb = __webpack_require__(8);
+	var _Crumb = __webpack_require__(9);
 
 	var _Crumb2 = _interopRequireDefault(_Crumb);
 
-	var _crumbOptionsList = __webpack_require__(9);
+	var _crumbOptionsList = __webpack_require__(10);
 
 	var _crumbOptionsList2 = _interopRequireDefault(_crumbOptionsList);
+
+	var _crumbComponentConfig = __webpack_require__(11);
+
+	var _crumbComponentConfig2 = _interopRequireDefault(_crumbComponentConfig);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -459,19 +508,59 @@
 	var CrumbContainer = (function (_React$Component) {
 	    _inherits(CrumbContainer, _React$Component);
 
-	    function CrumbContainer() {
+	    function CrumbContainer(props) {
 	        _classCallCheck(this, CrumbContainer);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbContainer).apply(this, arguments));
+	        /////////////////////
+	        // Creating weave session state
+	        /////////////////////
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbContainer).call(this, props));
+
+	        _this.settings = _this.props.settings ? _this.props.settings : new _crumbComponentConfig2.default();
+	        _this.busyStatus = window.dashboard_weave.root.getObject("isWeaveBusy");
+	        //////////////////////
+	        //initializing react state
+	        /////////////////////
+	        _this.state = {
+	            crumbTrail: []
+	        };
+
+	        _this.get_DataSources = _this.get_DataSources.bind(_this);
+	        return _this;
 	    }
 
 	    _createClass(CrumbContainer, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            //////////////////////
+	            // Register callbacks after component added to DOM
+	            //////////////////////
+	            this.busyStatus.addImmediateCallback(this, this.get_DataSources);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            this.busyStatus.removeCallback(this, this.get_DataSources);
+	        }
+	    }, {
+	        key: 'get_DataSources',
+	        value: function get_DataSources() {
+	            var tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);
+
+	            //getting the weave tree
+	            var names = [];
+	            for (var i in tree.children) {
+	                names.push(tree.children[i].getLabel());
+	            }
+	            // console.log("names", names);
+	            return names;
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-
 	            var crumbs = [];
-	            var dd = ["bluewhat", "blue", "qu", "aa", "anbalagan"];
-	            //console.log("in crumb conatiner");
+	            //var dd= ["bluewhat", "blue", "qu", "aa", "anbalagan"];
 	            for (var i = 0; i < 3; i++) {
 	                crumbs.push(_react2.default.createElement(_Crumb2.default, null));
 	            }
@@ -483,8 +572,7 @@
 	                    'div',
 	                    { className: 'crumbsContainer' },
 	                    crumbs
-	                ),
-	                _react2.default.createElement(_crumbOptionsList2.default, { options: dd })
+	                )
 	            );
 	        }
 	    }]);
@@ -495,13 +583,13 @@
 	exports.default = CrumbContainer;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
-	module.exports = React;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -512,7 +600,7 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(7);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -571,7 +659,7 @@
 	exports.default = Crumb;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -582,7 +670,7 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(7);
+	var _react = __webpack_require__(8);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -667,5 +755,54 @@
 	CrumbOptionsList.defaultProps = { options: [] };
 	exports.default = CrumbOptionsList;
 
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+
+	var _Weave = __webpack_require__(2);
+
+	var _Weave2 = _interopRequireDefault(_Weave);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(function (module) {
+
+	    function CrumbComponentConfig() {
+	        //setting session state
+	        Object.defineProperties(this, {
+	            crumbTrail: {
+	                value: _Weave2.default.linkableChild(this, new weavejs.core.LinkableVariable(Array))
+	            }
+	        });
+	    }
+
+	    module.exports = CrumbComponentConfig;
+	    _Weave2.default.registerClass('crumbs.CrumbComponentConfig', CrumbComponentConfig);
+	})(module); /**
+	             * Created by Shweta on 1/14/2016.
+	             */
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)(module)))
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = function (module) {
+		if (!module.webpackPolyfill) {
+			module.deprecate = function () {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	};
+
 /***/ }
-/******/ ]);
+/******/ ])
+});
+;
