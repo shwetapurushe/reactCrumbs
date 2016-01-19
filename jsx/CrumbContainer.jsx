@@ -1,6 +1,6 @@
 import React from 'react';
 import Crumb from './Crumb.jsx';
-import CrumbOptionsList from './crumbOptionsList.jsx';
+
 import CrumbComponentConfig from './crumbComponentConfig.js';
 
 class CrumbContainer extends React.Component{

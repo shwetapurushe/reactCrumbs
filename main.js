@@ -8,6 +8,7 @@ import './css/style.css';
 
 import CrumbContainer from './jsx/CrumbContainer';
 import CrumbComponentConfig from './jsx/crumbComponentConfig';
+import CrumbOptionsList from './jsx/crumbOptionsList.jsx';
 
 exports.CrumbConfig = CrumbComponentConfig;
 window.dashboard_weave = new Weave();//separate weave core for sessioning entire dashboard
@@ -19,7 +20,12 @@ busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.co
 
 loadWeaveFile("KSA.weave");
 //rendering the data crumbs
-ReactDOM.render(<CrumbContainer/>, document.getElementById("content"));
+var blah = ["bluewhat", "blue", "qu", "aa", "anbalagan"];
+ReactDOM.render(<div>
+                <CrumbContainer/>
+                <CrumbOptionsList options = {blah}/>
+                </div>,
+document.getElementById("content"));
 
 
 function loadWeaveFile (filename){

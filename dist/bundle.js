@@ -70,9 +70,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _CrumbContainer2 = _interopRequireDefault(_CrumbContainer);
 
-	var _crumbComponentConfig = __webpack_require__(11);
+	var _crumbComponentConfig = __webpack_require__(10);
 
 	var _crumbComponentConfig2 = _interopRequireDefault(_crumbComponentConfig);
+
+	var _crumbOptionsList = __webpack_require__(12);
+
+	var _crumbOptionsList2 = _interopRequireDefault(_crumbOptionsList);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -91,7 +95,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	loadWeaveFile("KSA.weave");
 	//rendering the data crumbs
-	_reactDom2.default.render(React.createElement(_CrumbContainer2.default, null), document.getElementById("content"));
+	var blah = ["bluewhat", "blue", "qu", "aa", "anbalagan"];
+	_reactDom2.default.render(React.createElement(
+	    'div',
+	    null,
+	    React.createElement(_CrumbContainer2.default, null),
+	    React.createElement(_crumbOptionsList2.default, { options: blah })
+	), document.getElementById("content"));
 
 	function loadWeaveFile(filename) {
 	    //console.log("loading ", filename);
@@ -154,7 +164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 1px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 20px;\r\n    padding : 3px 3px 3px 3px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 14px;\r\n}\r\n\r\n.onHover {\r\n    background-color: #8edbff;\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 14px;\r\n}\r\n\r\n.optionList{\r\n    border:solid 1px #619BD4;\r\n    width: 45%;\r\n    max-height : 500px;\r\n    border-radius : 7px;\r\n    padding : 5px 5px 5px 5px;\r\n    margin : 0 5px 5px 5px;\r\n    overflow-y : scroll;\r\n}\r\n\r\n.searchC{\r\n    width : 95%;\r\n    border: solid 1px #c8c2c4;\r\n    min-height: 20px;\r\n    margin : 0 5px 0px 5px;\r\n}\r\n\r\n.searchFilter{\r\n    width : 90%;\r\n    padding : 5px 5px 5px 5px;\r\n    min-height: 15px;\r\n    border: none;\r\n}", ""]);
+	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 1px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 30px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 14px;\r\n}\r\n\r\n.onHover {\r\n    background-color: #8edbff;\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 14px;\r\n}\r\n\r\n.optionList{\r\n    border:solid 1px #619BD4;\r\n    width: 45%;\r\n    max-height : 500px;\r\n    border-radius : 7px;\r\n    padding : 5px 5px 5px 5px;\r\n    margin : 0 5px 5px 5px;\r\n    overflow-y : scroll;\r\n}\r\n\r\n.searchC{\r\n    width : 95%;\r\n    border: solid 1px #c8c2c4;\r\n    min-height: 20px;\r\n    margin : 0 5px 0px 5px;\r\n}\r\n\r\n.searchFilter{\r\n    width : 90%;\r\n    padding : 5px 5px 5px 5px;\r\n    min-height: 15px;\r\n    border: none;\r\n}", ""]);
 
 	// exports
 
@@ -488,11 +498,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Crumb2 = _interopRequireDefault(_Crumb);
 
-	var _crumbOptionsList = __webpack_require__(10);
-
-	var _crumbOptionsList2 = _interopRequireDefault(_crumbOptionsList);
-
-	var _crumbComponentConfig = __webpack_require__(11);
+	var _crumbComponentConfig = __webpack_require__(10);
 
 	var _crumbComponentConfig2 = _interopRequireDefault(_crumbComponentConfig);
 
@@ -545,13 +551,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return names;
 	        }
 
-	        //adding initial data source
+	        //adding initial data source crumb
 
 	    }, {
 	        key: 'add_First_Crumb',
 	        value: function add_First_Crumb(tree) {
 	            this.setState({ crumbTrail: [tree.label] });
-	            console.log("first crumb added");
 	        }
 
 	        //REACT LIFECYCLE METHODS
@@ -675,6 +680,53 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+
+	var _Weave = __webpack_require__(2);
+
+	var _Weave2 = _interopRequireDefault(_Weave);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(function (module) {
+
+	    function CrumbComponentConfig() {
+	        //setting session state
+	        Object.defineProperties(this, {
+	            crumbTrail: {
+	                value: _Weave2.default.linkableChild(this, new weavejs.core.LinkableVariable(Array))
+	            }
+	        });
+	    }
+
+	    module.exports = CrumbComponentConfig;
+	    _Weave2.default.registerClass('crumbs.CrumbComponentConfig', CrumbComponentConfig);
+	})(module); /**
+	             * Created by Shweta on 1/14/2016.
+	             */
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)(module)))
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = function (module) {
+		if (!module.webpackPolyfill) {
+			module.deprecate = function () {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	};
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -767,53 +819,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	CrumbOptionsList.defaultProps = { options: [] };
 	exports.default = CrumbOptionsList;
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _Weave = __webpack_require__(2);
-
-	var _Weave2 = _interopRequireDefault(_Weave);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	(function (module) {
-
-	    function CrumbComponentConfig() {
-	        //setting session state
-	        Object.defineProperties(this, {
-	            crumbTrail: {
-	                value: _Weave2.default.linkableChild(this, new weavejs.core.LinkableVariable(Array))
-	            }
-	        });
-	    }
-
-	    module.exports = CrumbComponentConfig;
-	    _Weave2.default.registerClass('crumbs.CrumbComponentConfig', CrumbComponentConfig);
-	})(module); /**
-	             * Created by Shweta on 1/14/2016.
-	             */
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)(module)))
-
-/***/ },
-/* 12 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	module.exports = function (module) {
-		if (!module.webpackPolyfill) {
-			module.deprecate = function () {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	};
 
 /***/ }
 /******/ ])
