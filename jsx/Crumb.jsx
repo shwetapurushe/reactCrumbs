@@ -26,7 +26,7 @@ class Crumb extends React.Component{
             crumbStyle = "crumb";
 
         return (
-            <div onMouseOver = {this.onMouse} onMouseOut = {this.mouseOut}   className = {crumbStyle}>Crumb</div>
+            <div onMouseOver = {this.onMouse} onMouseOut = {this.mouseOut}   className = {crumbStyle}>{this.props.title}</div>
         );
     }
 }

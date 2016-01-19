@@ -81,13 +81,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	console.log("webpack works");
 
-	var busyStatus;
 	exports.CrumbConfig = _crumbComponentConfig2.default;
 	window.dashboard_weave = new _Weave2.default(); //separate weave core for sessioning entire dashboard
-	console.log("dashboard weave", window.dashboard_weave);
-	busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 	//communicate between these two using path API
 	window.weave = new _Weave2.default(); //viz weave
+
+	var busyStatus;
+	busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 
 	loadWeaveFile("KSA.weave");
 	//rendering the data crumbs
@@ -105,7 +105,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	function weaveReady() {
 	    //console.log("weave is ready");
 	    busyStatus.value = false; //once weave is ready set to true
-	    console.log("dashboard weave2", window.dashboard_weave);
 	}
 
 /***/ },
@@ -527,16 +526,43 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 
 	        _this.get_DataSources = _this.get_DataSources.bind(_this);
+	        _this.add_First_Crumb = _this.add_First_Crumb.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(CrumbContainer, [{
+	        key: 'get_DataSources',
+	        value: function get_DataSources() {
+	            var tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);
+
+	            this.add_First_Crumb(tree);
+	            //getting the weave tree
+	            var names = [];
+	            for (var i in tree.children) {
+	                names.push(tree.children[i].getLabel());
+	            }
+	            console.log("names", names);
+	            return names;
+	        }
+
+	        //adding initial data source
+
+	    }, {
+	        key: 'add_First_Crumb',
+	        value: function add_First_Crumb(tree) {
+	            this.setState({ crumbTrail: [tree.label] });
+	            console.log("first crumb added");
+	        }
+
+	        //REACT LIFECYCLE METHODS
+
+	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            //////////////////////
 	            // Register callbacks after component added to DOM
 	            //////////////////////
-	            this.busyStatus.addImmediateCallback(this, this.get_DataSources);
+	            this.busyStatus.addImmediateCallback(this, this.get_DataSources); //retrieve the data sources as soon as weave loads and is no longer busy
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
@@ -544,26 +570,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.busyStatus.removeCallback(this, this.get_DataSources);
 	        }
 	    }, {
-	        key: 'get_DataSources',
-	        value: function get_DataSources() {
-	            var tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);
-
-	            //getting the weave tree
-	            var names = [];
-	            for (var i in tree.children) {
-	                names.push(tree.children[i].getLabel());
-	            }
-	            // console.log("names", names);
-	            return names;
-	        }
-	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var crumbs = [];
-	            //var dd= ["bluewhat", "blue", "qu", "aa", "anbalagan"];
-	            for (var i = 0; i < 3; i++) {
-	                crumbs.push(_react2.default.createElement(_Crumb2.default, null));
-	            }
+	            var crumbs = this.state.crumbTrail;
+	            console.log("crumbs", crumbs);
+	            var crumbUI = crumbs.map(function (name, index) {
+	                return _react2.default.createElement(_Crumb2.default, { key: index, title: name });
+	            });
 
 	            return _react2.default.createElement(
 	                'div',
@@ -571,7 +584,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'crumbsContainer' },
-	                    crumbs
+	                    crumbUI
 	                )
 	            );
 	        }
@@ -648,7 +661,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _react2.default.createElement(
 	                "div",
 	                { onMouseOver: this.onMouse, onMouseOut: this.mouseOut, className: crumbStyle },
-	                "Crumb"
+	                this.props.title
 	            );
 	        }
 	    }]);

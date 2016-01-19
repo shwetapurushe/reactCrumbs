@@ -9,13 +9,13 @@ import './css/style.css';
 import CrumbContainer from './jsx/CrumbContainer';
 import CrumbComponentConfig from './jsx/crumbComponentConfig';
 
-var busyStatus;
 exports.CrumbConfig = CrumbComponentConfig;
 window.dashboard_weave = new Weave();//separate weave core for sessioning entire dashboard
-console.log("dashboard weave",window.dashboard_weave);
-busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 //communicate between these two using path API
 window.weave = new Weave();//viz weave
+
+var busyStatus;
+busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 
 loadWeaveFile("KSA.weave");
 //rendering the data crumbs
@@ -35,5 +35,4 @@ function loadWeaveFile (filename){
 function weaveReady (){
     //console.log("weave is ready");
     busyStatus.value = false;//once weave is ready set to true
-    console.log("dashboard weave2",window.dashboard_weave);
 }
