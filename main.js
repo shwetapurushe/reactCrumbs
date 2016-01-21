@@ -4,13 +4,9 @@
 console.log("webpack works");
 import ReactDOM from 'react-dom';
 import Weave from 'Weave';
+import CrumbComponent from './jsx/CrumbComponent.jsx';
 import './css/style.css';
 
-import CrumbContainer from './jsx/CrumbContainer';
-import CrumbComponentConfig from './jsx/crumbComponentConfig';
-import CrumbOptionsList from './jsx/crumbOptionsList.jsx';
-
-exports.CrumbConfig = CrumbComponentConfig;
 window.dashboard_weave = new Weave();//separate weave core for sessioning entire dashboard
 //communicate between these two using path API
 window.weave = new Weave();//viz weave
@@ -18,14 +14,11 @@ window.weave = new Weave();//viz weave
 var busyStatus;
 busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 
+window.dashboard_weave.root.requestObject("active_crumb", weavejs.core.LinkableString, true);//stores only the title of the active crumb
+
 loadWeaveFile("KSA.weave");
 //rendering the data crumbs
-var blah = ["bluewhat", "blue", "qu", "aa", "anbalagan"];
-ReactDOM.render(<div>
-                <CrumbContainer/>
-                <CrumbOptionsList options = {blah}/>
-                </div>,
-document.getElementById("content"));
+ReactDOM.render( <CrumbComponent/>,document.getElementById("content"));
 
 
 function loadWeaveFile (filename){
