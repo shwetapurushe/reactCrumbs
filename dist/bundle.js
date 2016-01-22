@@ -122,7 +122,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -152,7 +152,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var CrumbComponent = (function (_React$Component) {
+	var CrumbComponent = function (_React$Component) {
 	    _inherits(CrumbComponent, _React$Component);
 
 	    function CrumbComponent(props) {
@@ -191,6 +191,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);
 
 	            this.add_First_Crumb(tree);
+	        }
+
+	        //when an active crumb is selected get its siblings
+
+	    }, {
+	        key: 'get_ListOptions',
+	        value: function get_ListOptions() {
 	            //getting the weave tree
 	            var names = [];
 	            for (var i in tree.children) {
@@ -199,12 +206,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            console.log("getting datasources", names);
 	            return names;
 	        }
-
-	        //when an active crumb is selected get its siblings
-
-	    }, {
-	        key: 'get_ListOptions',
-	        value: function get_ListOptions(crumb_name) {}
 
 	        //adding initial data source crumb
 
@@ -223,7 +224,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Register callbacks after component added to DOM
 	            //////////////////////
 	            this.busyStatus.addImmediateCallback(this, this.get_DataSources); //retrieve the data sources as soon as weave loads and is no longer busy
-	            // this.active_crumb.addImmediateCallback(this, this.get_ListOptions);
+	            this.active_crumb.addImmediateCallback(this, this.get_ListOptions);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
@@ -246,7 +247,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 
 	    return CrumbComponent;
-	})(_react2.default.Component);
+	}(_react2.default.Component);
 
 	exports.default = CrumbComponent;
 
@@ -262,7 +263,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -288,7 +289,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var CrumbContainer = (function (_React$Component) {
+	var CrumbContainer = function (_React$Component) {
 	    _inherits(CrumbContainer, _React$Component);
 
 	    function CrumbContainer(props) {
@@ -319,7 +320,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 
 	    return CrumbContainer;
-	})(_react2.default.Component);
+	}(_react2.default.Component);
 
 	exports.default = CrumbContainer;
 
@@ -329,7 +330,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -347,7 +348,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Crumb = (function (_React$Component) {
+	var Crumb = function (_React$Component) {
 	    _inherits(Crumb, _React$Component);
 
 	    function Crumb(props) {
@@ -402,7 +403,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 
 	    return Crumb;
-	})(_react2.default.Component);
+	}(_react2.default.Component);
 
 	exports.default = Crumb;
 
@@ -459,7 +460,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -477,7 +478,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var CrumbOptionsList = (function (_React$Component) {
+	var CrumbOptionsList = function (_React$Component) {
 	    _inherits(CrumbOptionsList, _React$Component);
 
 	    function CrumbOptionsList(props) {
@@ -545,7 +546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 
 	    return CrumbOptionsList;
-	})(_react2.default.Component);
+	}(_react2.default.Component);
 
 	CrumbOptionsList.defaultProps = { options: [] };
 	exports.default = CrumbOptionsList;
