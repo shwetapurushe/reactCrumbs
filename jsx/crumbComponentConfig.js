@@ -1,18 +1,26 @@
-/**
- * Created by Shweta on 1/14/2016.
- */
-import Weave from 'Weave';
-(function(module){
 
+
+import CrumbContainerConfig from './CrumbContainerConfig';
+
+(function(module){
     function CrumbComponentConfig (){
         //setting session state
         Object.defineProperties(this, {
-            crumbTrail : {
-                value : Weave.linkableChild(this,  new weavejs.core.LinkableVariable(Array))
+            crumbContainer : {
+                value : Weave.linkableChild(this, new CrumbContainerConfig())
+            },
+            activeCrumb : {
+                value : Weave.linkableChild(this, new weavejs.core.LinkableString())
             }
         });
+
     }
 
     module.exports = CrumbComponentConfig;
     Weave.registerClass('crumbs.CrumbComponentConfig', CrumbComponentConfig);
-})(module);
+
+}(module));
+
+
+
+

@@ -11,41 +11,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
@@ -55,53 +55,53 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	var _reactDom = __webpack_require__(1);
-
+	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
-
+	
 	var _Weave = __webpack_require__(2);
-
+	
 	var _Weave2 = _interopRequireDefault(_Weave);
-
+	
 	var _CrumbComponent = __webpack_require__(3);
-
+	
 	var _CrumbComponent2 = _interopRequireDefault(_CrumbComponent);
-
-	__webpack_require__(10);
-
+	
+	__webpack_require__(12);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	/**
 	 * Created by Shweta on 1/5/2016.
 	 */
 	console.log("webpack works");
-
+	
 	window.dashboard_weave = new _Weave2.default(); //separate weave core for sessioning entire dashboard
 	//communicate between these two using path API
 	window.weave = new _Weave2.default(); //viz weave
-
+	
 	var busyStatus;
 	busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
-
-	window.dashboard_weave.root.requestObject("active_crumb", weavejs.core.LinkableString, true); //stores only the title of the active crumb
-
+	
+	//window.dashboard_weave.root.requestObject("active_crumb", weavejs.core.LinkableString, true);//stores only the title of the active crumb
+	
 	loadWeaveFile("KSA.weave");
 	//rendering the data crumbs
-	_reactDom2.default.render(React.createElement(_CrumbComponent2.default, null), document.getElementById("content"));
-
+	
 	function loadWeaveFile(filename) {
 	    //console.log("loading ", filename);
 	    busyStatus.value = true; //setting default value as false
-
+	
 	    //loading the weave session state
 	    WeaveUI.loadLayout(weave, filename, "weaveElt", weaveReady);
 	};
-
+	
 	//this callback runs when viz weave and sessions state loads
 	function weaveReady() {
 	    //console.log("weave is ready");
 	    busyStatus.value = false; //once weave is ready set to true
+	    _reactDom2.default.render(React.createElement(_CrumbComponent2.default, null), document.getElementById("content"));
 	}
 
 /***/ },
@@ -121,126 +121,97 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
+	
 	var _react = __webpack_require__(4);
-
+	
 	var _react2 = _interopRequireDefault(_react);
-
+	
 	var _CrumbContainer = __webpack_require__(5);
-
+	
 	var _CrumbContainer2 = _interopRequireDefault(_CrumbContainer);
-
-	var _crumbComponentConfig = __webpack_require__(7);
-
-	var _crumbComponentConfig2 = _interopRequireDefault(_crumbComponentConfig);
-
-	var _crumbOptionsList = __webpack_require__(9);
-
+	
+	var _CrumbComponentConfig = __webpack_require__(7);
+	
+	var _CrumbComponentConfig2 = _interopRequireDefault(_CrumbComponentConfig);
+	
+	var _crumbOptionsList = __webpack_require__(10);
+	
 	var _crumbOptionsList2 = _interopRequireDefault(_crumbOptionsList);
-
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
+	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var CrumbComponent = function (_React$Component) {
+	
+	var CrumbComponent = (function (_React$Component) {
 	    _inherits(CrumbComponent, _React$Component);
-
+	
 	    function CrumbComponent(props) {
 	        _classCallCheck(this, CrumbComponent);
-
+	
 	        //////////////////////
 	        //initializing react state
 	        /////////////////////
-
+	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbComponent).call(this, props));
-
+	
 	        _this.state = {
-	            crumbTrail: [],
 	            listOptions: []
 	        };
-
+	
 	        /////////////////////
 	        // Creating weave session state
 	        /////////////////////
-	        _this.settings = _this.props.settings ? _this.props.settings : new _crumbComponentConfig2.default();
+	        _this.settings = _this.props.settings ? _this.props.settings : new _CrumbComponentConfig2.default();
 	        _this.busyStatus = window.dashboard_weave.root.getObject("isWeaveBusy");
-
+	
 	        //sessioned crumb
-	        _this.active_crumb = window.dashboard_weave.root.getObject("active_crumb");
-	        console.log("active_crumb", _this.active_crumb);
-
-	        _this.add_First_Crumb = _this.add_First_Crumb.bind(_this);
-	        _this.get_ListOptions = _this.get_ListOptions.bind(_this);
-
+	        _this.active_crumb = _this.settings.activeCrumb;
+	
 	        _this.tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);
 	        return _this;
 	    }
-
-	    //when an active crumb is selected get its siblings
-
+	
+	    //REACT LIFECYCLE METHODS
+	
 	    _createClass(CrumbComponent, [{
-	        key: 'get_ListOptions',
-	        value: function get_ListOptions() {
-	            var names = [];
-	            for (var i in this.tree.children) {
-	                names.push(this.tree.children[i].getLabel());
-	            }
-	            console.log("getting datasources", names);
-	            this.setState({ listOptions: names });
-	        }
-
-	        //adding initial data source crumb
-
-	    }, {
-	        key: 'add_First_Crumb',
-	        value: function add_First_Crumb(tree) {
-	            this.setState({ crumbTrail: [this.tree.label] });
-	        }
-
-	        //REACT LIFECYCLE METHODS
-
-	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            //////////////////////
 	            // Register callbacks after component added to DOM
 	            //////////////////////
-	            this.busyStatus.addImmediateCallback(this, this.add_First_Crumb); //retrieve the data sources as soon as weave loads and is no longer busy
-	            this.active_crumb.addImmediateCallback(this, this.get_ListOptions);
+	            this.busyStatus.addImmediateCallback(this, this.add_Crumb); //retrieve the data sources as soon as weave loads and is no longer busy
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
-	            this.busyStatus.removeCallback(this, this.get_DataSources);
+	            this.busyStatus.removeCallback(this, this.add_Crumb);
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var blah = ["bluewhat", "blue", "qu", "aa", "anbalagan"];
-	            var listOptions = this.state.listOptions;
-	            var crumbTrail = this.state.crumbTrail;
+	            var sessionCrumbContainer = this.settings.crumbContainer;
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_CrumbContainer2.default, { crumbTrail: crumbTrail }),
-	                _react2.default.createElement(_crumbOptionsList2.default, { options: listOptions })
+	                _react2.default.createElement(_CrumbContainer2.default, { settings: sessionCrumbContainer, activeCrumb: this.settings.activeCrumb, tree: this.tree }),
+	                _react2.default.createElement(_crumbOptionsList2.default, { nodes: this.tree.children, activeCrumb: this.settings.activeCrumb })
 	            );
 	        }
 	    }]);
-
+	
 	    return CrumbComponent;
-	}(_react2.default.Component);
-
+	})(_react2.default.Component);
+	
 	exports.default = CrumbComponent;
 
 /***/ },
@@ -254,51 +225,82 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
+	
 	var _react = __webpack_require__(4);
-
+	
 	var _react2 = _interopRequireDefault(_react);
-
+	
 	var _Crumb = __webpack_require__(6);
-
+	
 	var _Crumb2 = _interopRequireDefault(_Crumb);
-
-	var _crumbComponentConfig = __webpack_require__(7);
-
-	var _crumbComponentConfig2 = _interopRequireDefault(_crumbComponentConfig);
-
+	
+	var _CrumbComponentConfig = __webpack_require__(7);
+	
+	var _CrumbComponentConfig2 = _interopRequireDefault(_CrumbComponentConfig);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
+	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var CrumbContainer = function (_React$Component) {
+	
+	var CrumbContainer = (function (_React$Component) {
 	    _inherits(CrumbContainer, _React$Component);
-
+	
 	    function CrumbContainer(props) {
 	        _classCallCheck(this, CrumbContainer);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbContainer).call(this, props));
+	
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbContainer).call(this, props));
+	
+	        _this.active_crumb = _this.props.activeCrumb;
+	
+	        _this.state = {
+	            crumbTrail: [_this.props.tree.label]
+	        };
+	        _this.add_Crumb = _this.add_Crumb.bind(_this);
+	        return _this;
 	    }
-
+	
 	    _createClass(CrumbContainer, [{
+	        key: 'add_Crumb',
+	        value: function add_Crumb() {
+	
+	            var crT = this.state.crumbTrail;
+	            if ($.inArray(this.active_crumb.value, crT) == -1) crT.push(this.active_crumb.value);
+	            this.setState({ crumbTrail: crT });
+	        }
+	    }, {
+	        key: 'handleCrumbClick',
+	        value: function handleCrumbClick(name) {
+	            //update the active crumb and trigger callback
+	            this.active_crumb.value = name;
+	            //console.log("setting the value of active crumb linkable variable", active_crumb.value);
+	        }
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.active_crumb.addImmediateCallback(this, this.add_Crumb);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var crumbs = this.props.crumbTrail;
-	            console.log("CrumbContainer contains", crumbs);
-	            var crumbUI = crumbs.map(function (name, index) {
-	                return _react2.default.createElement(_Crumb2.default, { key: index, title: name });
-	            });
-
+	            var crumbs = this.state.crumbTrail;
+	            var crumbUI = [];
+	            if (crumbs) {
+	                console.log("CrumbContainer contains", crumbs);
+	                crumbUI = crumbs.map((function (name, index) {
+	                    return _react2.default.createElement(_Crumb2.default, { callback: this.handleCrumbClick.bind(this, name), key: index, title: name });
+	                }).bind(this));
+	            }
+	
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -310,10 +312,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            );
 	        }
 	    }]);
-
+	
 	    return CrumbContainer;
-	}(_react2.default.Component);
-
+	})(_react2.default.Component);
+	
 	exports.default = CrumbContainer;
 
 /***/ },
@@ -321,40 +323,39 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
+	
 	var _react = __webpack_require__(4);
-
+	
 	var _react2 = _interopRequireDefault(_react);
-
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
+	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Crumb = function (_React$Component) {
+	
+	var Crumb = (function (_React$Component) {
 	    _inherits(Crumb, _React$Component);
-
+	
 	    function Crumb(props) {
 	        _classCallCheck(this, Crumb);
-
+	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Crumb).call(this, props));
-
+	
 	        _this.state = { hover: false, crumb_Title: null };
 	        _this.onMouse = _this.onMouse.bind(_this); // binding using the 'this' instance needed only for es6, normally done by React.createClass
 	        _this.mouseOut = _this.mouseOut.bind(_this);
-	        _this.handleClick = _this.handleClick.bind(_this);
 	        return _this;
 	    }
-
+	
 	    _createClass(Crumb, [{
 	        key: "onMouse",
 	        value: function onMouse() {
@@ -366,39 +367,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.setState({ hover: false });
 	        }
 	    }, {
-	        key: "handleClick",
-	        value: function handleClick() {
-	            //update the active crumb and trigger callback
-	            var active_crumb = window.dashboard_weave.root.getObject("active_crumb");
-	            active_crumb.value = this.state.crumb_Title;
-	            console.log("setting the value of active crumb linkable variable", active_crumb.value);
-	        }
-	    }, {
 	        key: "componentWillMount",
 	        value: function componentWillMount() {
-
+	
 	            this.setState({ crumb_Title: this.props.title });
 	        }
 	    }, {
 	        key: "render",
 	        value: function render() {
-
+	
 	            var crumbStyle;
 	            if (this.state.hover) {
 	                crumbStyle = "onHover";
 	            } else crumbStyle = "crumb";
-
+	
 	            return _react2.default.createElement(
 	                "div",
-	                { onMouseOver: this.onMouse, onMouseOut: this.mouseOut, onClick: this.handleClick, className: crumbStyle },
+	                { onMouseOver: this.onMouse, onMouseOut: this.mouseOut, onClick: this.props.callback, className: crumbStyle },
 	                this.state.crumb_Title
 	            );
 	        }
 	    }]);
-
+	
 	    return Crumb;
-	}(_react2.default.Component);
-
+	})(_react2.default.Component);
+	
 	exports.default = Crumb;
 
 /***/ },
@@ -406,29 +399,29 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _Weave = __webpack_require__(2);
-
-	var _Weave2 = _interopRequireDefault(_Weave);
-
+	
+	var _CrumbContainerConfig = __webpack_require__(9);
+	
+	var _CrumbContainerConfig2 = _interopRequireDefault(_CrumbContainerConfig);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	(function (module) {
-
 	    function CrumbComponentConfig() {
 	        //setting session state
 	        Object.defineProperties(this, {
-	            crumbTrail: {
-	                value: _Weave2.default.linkableChild(this, new weavejs.core.LinkableVariable(Array))
+	            crumbContainer: {
+	                value: Weave.linkableChild(this, new _CrumbContainerConfig2.default())
+	            },
+	            activeCrumb: {
+	                value: Weave.linkableChild(this, new weavejs.core.LinkableString())
 	            }
 	        });
 	    }
-
+	
 	    module.exports = CrumbComponentConfig;
-	    _Weave2.default.registerClass('crumbs.CrumbComponentConfig', CrumbComponentConfig);
-	})(module); /**
-	             * Created by Shweta on 1/14/2016.
-	             */
+	    Weave.registerClass('crumbs.CrumbComponentConfig', CrumbComponentConfig);
+	})(module);
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)(module)))
 
 /***/ },
@@ -436,7 +429,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	"use strict";
-
+	
 	module.exports = function (module) {
 		if (!module.webpackPolyfill) {
 			module.deprecate = function () {};
@@ -452,83 +445,139 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+	
+	var _Weave = __webpack_require__(2);
+	
+	var _Weave2 = _interopRequireDefault(_Weave);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	(function (module) {
+	
+	    function CrumbContainerConfig() {
+	        Object.defineProperties(this, {
+	            crumbTrail: {
+	                value: _Weave2.default.linkableChild(this, new weavejs.core.LinkableVariable(Array))
+	            }
+	        });
+	    }
+	
+	    module.exports = CrumbContainerConfig;
+	    _Weave2.default.registerClass('crumbs.CrumbContainerConfig', CrumbContainerConfig);
+	})(module);
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)(module)))
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
+	
 	var _react = __webpack_require__(4);
-
+	
 	var _react2 = _interopRequireDefault(_react);
-
+	
+	var _C_ListItem = __webpack_require__(11);
+	
+	var _C_ListItem2 = _interopRequireDefault(_C_ListItem);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
+	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var CrumbOptionsList = function (_React$Component) {
+	
+	var CrumbOptionsList = (function (_React$Component) {
 	    _inherits(CrumbOptionsList, _React$Component);
-
+	
 	    function CrumbOptionsList(props) {
 	        _classCallCheck(this, CrumbOptionsList);
-
+	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbOptionsList).call(this, props));
-
+	
 	        _this.handleChange = _this.handleChange.bind(_this);
+	        _this.get_ListOptions = _this.get_ListOptions.bind(_this);
+	        //this.handle_Options_Click = this.handle_Options_Click.bind(this);
+	        _this.active_crumb = _this.props.activeCrumb;
 	        _this.state = { value: "" };
 	        return _this;
 	    }
-
+	
 	    _createClass(CrumbOptionsList, [{
-	        key: "handleChange",
+	        key: 'handleChange',
 	        value: function handleChange(event) {
 	            var value;
 	            value = event.target.value;
 	            this.setState({ value: value });
 	        }
+	
+	        //when an active crumb is selected get its siblings
+	
 	    }, {
-	        key: "render",
+	        key: 'get_ListOptions',
+	        value: function get_ListOptions() {
+	            var names = [];
+	            for (var i in this.props.nodes) {
+	                names.push(this.props.nodes[i].getLabel());
+	            }
+	            this.setState({ listOptions: names });
+	        }
+	    }, {
+	        key: 'handle_Options_Click',
+	        value: function handle_Options_Click(treeItem) {
+	            var label = treeItem.label ? treeItem.label : treeItem.metadata.title;
+	            this.active_crumb.value = label;
+	        }
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.active_crumb.addImmediateCallback(this, this.get_ListOptions);
+	        }
+	    }, {
+	        key: 'filtered',
+	        value: function filtered(value) {
+	            var label;
+	            if (!value.label) label = value.metadata.title;else label = value.label;
+	            return label.indexOf(this.state.value) != -1;
+	        }
+	    }, {
+	        key: 'render',
 	        value: function render() {
 	            var listUI;
 	            var list;
-	            function filtered(value) {
-	                return value.indexOf(this.state.value) != -1;
-	            }
-
-	            if (this.state.value) list = this.props.options.filter(filtered.bind(this));else list = this.props.options;
-
-	            listUI = list.map(function (listName, index) {
-	                return _react2.default.createElement(
-	                    "li",
-	                    { key: index },
-	                    listName
-	                );
-	            });
-
+	            if (this.state.value) list = this.props.nodes.filter(this.filtered.bind(this));else list = this.props.nodes;
+	
+	            listUI = list.map((function (listItem, index) {
+	                return _react2.default.createElement(_C_ListItem2.default, { key: index, treeItem: listItem, callback: this.handle_Options_Click.bind(this, listItem) });
+	            }).bind(this)); //binding the Options list component
+	
 	            return _react2.default.createElement(
-	                "div",
-	                { className: "optionList" },
+	                'div',
+	                { className: 'optionList' },
 	                _react2.default.createElement(
-	                    "div",
-	                    { className: "searchC" },
-	                    _react2.default.createElement("input", { type: "text", value: this.state.value, className: "searchFilter", onChange: this.handleChange }),
+	                    'div',
+	                    { className: 'searchC' },
+	                    _react2.default.createElement('input', { type: 'text', value: this.state.value, className: 'searchFilter', onChange: this.handleChange }),
 	                    _react2.default.createElement(
-	                        "i",
+	                        'i',
 	                        null,
-	                        " icon"
+	                        ' icon'
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    "div",
+	                    'div',
 	                    null,
 	                    _react2.default.createElement(
-	                        "ul",
+	                        'ul',
 	                        null,
 	                        listUI
 	                    )
@@ -536,24 +585,78 @@ return /******/ (function(modules) { // webpackBootstrap
 	            );
 	        }
 	    }]);
-
+	
 	    return CrumbOptionsList;
-	}(_react2.default.Component);
-
+	})(_react2.default.Component);
+	
 	CrumbOptionsList.defaultProps = { options: [] };
 	exports.default = CrumbOptionsList;
 
 /***/ },
-/* 10 */
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(4);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var C_ListItem = (function (_React$Component) {
+	    _inherits(C_ListItem, _React$Component);
+	
+	    function C_ListItem(props) {
+	        _classCallCheck(this, C_ListItem);
+	
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(C_ListItem).call(this, props));
+	
+	        _this.label = props.treeItem.label;
+	        if (!_this.label) _this.label = props.treeItem.metadata.title;
+	        return _this;
+	    }
+	
+	    _createClass(C_ListItem, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'li',
+	                { onClick: this.props.callback },
+	                ' ',
+	                this.label
+	            );
+	        }
+	    }]);
+	
+	    return C_ListItem;
+	})(_react2.default.Component);
+	
+	exports.default = C_ListItem;
+
+/***/ },
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
-
+	
 	// load the styles
-	var content = __webpack_require__(11);
+	var content = __webpack_require__(13);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(13)(content, {});
+	var update = __webpack_require__(15)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -570,25 +673,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(12)();
+	exports = module.exports = __webpack_require__(14)();
 	// imports
-
-
+	
+	
 	// module
 	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 1px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 30px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 14px;\r\n}\r\n\r\n.onHover {\r\n    background-color: #8edbff;\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 14px;\r\n}\r\n\r\n.optionList{\r\n    border:solid 1px #619BD4;\r\n    width: 45%;\r\n    max-height : 500px;\r\n    border-radius : 7px;\r\n    padding : 5px 5px 5px 5px;\r\n    margin : 0 5px 5px 5px;\r\n    overflow-y : scroll;\r\n}\r\n\r\n.searchC{\r\n    width : 95%;\r\n    border: solid 1px #c8c2c4;\r\n    min-height: 20px;\r\n    margin : 0 5px 0px 5px;\r\n}\r\n\r\n.searchFilter{\r\n    width : 90%;\r\n    padding : 5px 5px 5px 5px;\r\n    min-height: 15px;\r\n    border: none;\r\n}", ""]);
-
+	
 	// exports
 
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
 
 	"use strict";
-
+	
 	/*
 		MIT License http://www.opensource.org/licenses/mit-license.php
 		Author Tobias Koppers @sokra
@@ -596,7 +699,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// css base code, injected by the css-loader
 	module.exports = function () {
 		var list = [];
-
+	
 		// return the list of modules as css string
 		list.toString = function toString() {
 			var result = [];
@@ -610,7 +713,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 			return result.join("");
 		};
-
+	
 		// import a list of modules into the list
 		list.i = function (modules, mediaQuery) {
 			if (typeof modules === "string") modules = [[null, modules, ""]];
@@ -639,7 +742,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -663,23 +766,23 @@ return /******/ (function(modules) { // webpackBootstrap
 		singletonElement = null,
 		singletonCounter = 0,
 		styleElementsInsertedAtTop = [];
-
+	
 	module.exports = function(list, options) {
 		if(false) {
 			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
 		}
-
+	
 		options = options || {};
 		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
 		// tags it will allow on a page
 		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
+	
 		// By default, add <style> tags to the bottom of <head>.
 		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
+	
 		var styles = listToStyles(list);
 		addStylesToDom(styles, options);
-
+	
 		return function update(newList) {
 			var mayRemove = [];
 			for(var i = 0; i < styles.length; i++) {
@@ -702,7 +805,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		};
 	}
-
+	
 	function addStylesToDom(styles, options) {
 		for(var i = 0; i < styles.length; i++) {
 			var item = styles[i];
@@ -724,7 +827,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}
 	}
-
+	
 	function listToStyles(list) {
 		var styles = [];
 		var newStyles = {};
@@ -742,7 +845,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 		return styles;
 	}
-
+	
 	function insertStyleElement(options, styleElement) {
 		var head = getHeadElement();
 		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
@@ -761,7 +864,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
 		}
 	}
-
+	
 	function removeStyleElement(styleElement) {
 		styleElement.parentNode.removeChild(styleElement);
 		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
@@ -769,24 +872,24 @@ return /******/ (function(modules) { // webpackBootstrap
 			styleElementsInsertedAtTop.splice(idx, 1);
 		}
 	}
-
+	
 	function createStyleElement(options) {
 		var styleElement = document.createElement("style");
 		styleElement.type = "text/css";
 		insertStyleElement(options, styleElement);
 		return styleElement;
 	}
-
+	
 	function createLinkElement(options) {
 		var linkElement = document.createElement("link");
 		linkElement.rel = "stylesheet";
 		insertStyleElement(options, linkElement);
 		return linkElement;
 	}
-
+	
 	function addStyle(obj, options) {
 		var styleElement, update, remove;
-
+	
 		if (options.singleton) {
 			var styleIndex = singletonCounter++;
 			styleElement = singletonElement || (singletonElement = createStyleElement(options));
@@ -812,9 +915,9 @@ return /******/ (function(modules) { // webpackBootstrap
 				removeStyleElement(styleElement);
 			};
 		}
-
+	
 		update(obj);
-
+	
 		return function updateStyle(newObj) {
 			if(newObj) {
 				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
@@ -825,19 +928,19 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		};
 	}
-
+	
 	var replaceText = (function () {
 		var textStore = [];
-
+	
 		return function (index, replacement) {
 			textStore[index] = replacement;
 			return textStore.filter(Boolean).join('\n');
 		};
 	})();
-
+	
 	function applyToSingletonTag(styleElement, index, remove, obj) {
 		var css = remove ? "" : obj.css;
-
+	
 		if (styleElement.styleSheet) {
 			styleElement.styleSheet.cssText = replaceText(index, css);
 		} else {
@@ -851,16 +954,16 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}
 	}
-
+	
 	function applyToTag(styleElement, obj) {
 		var css = obj.css;
 		var media = obj.media;
 		var sourceMap = obj.sourceMap;
-
+	
 		if(media) {
 			styleElement.setAttribute("media", media)
 		}
-
+	
 		if(styleElement.styleSheet) {
 			styleElement.styleSheet.cssText = css;
 		} else {
@@ -870,23 +973,23 @@ return /******/ (function(modules) { // webpackBootstrap
 			styleElement.appendChild(document.createTextNode(css));
 		}
 	}
-
+	
 	function updateLink(linkElement, obj) {
 		var css = obj.css;
 		var media = obj.media;
 		var sourceMap = obj.sourceMap;
-
+	
 		if(sourceMap) {
 			// http://stackoverflow.com/a/26603875
 			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
 		}
-
+	
 		var blob = new Blob([css], { type: "text/css" });
-
+	
 		var oldSrc = linkElement.href;
-
+	
 		linkElement.href = URL.createObjectURL(blob);
-
+	
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
@@ -896,3 +999,4 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
+//# sourceMappingURL=bundle.js.map
