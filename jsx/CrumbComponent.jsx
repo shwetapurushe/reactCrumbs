@@ -27,29 +27,24 @@ class CrumbComponent extends React.Component{
         this.active_crumb = window.dashboard_weave.root.getObject("active_crumb");
         console.log("active_crumb", this.active_crumb);
 
-        this.get_DataSources = this.get_DataSources.bind(this);
         this.add_First_Crumb = this.add_First_Crumb.bind(this);
         this.get_ListOptions = this.get_ListOptions.bind(this);
+
+        this.tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);
     }
 
-    get_DataSources(){
-        var tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);
-
-        this.add_First_Crumb(tree);
-    }
 
     //when an active crumb is selected get its siblings
     get_ListOptions (){
-        //getting the weave tree
         var names = [];
-        for (var i in tree.children){names.push(tree.children[i].getLabel())}
+        for (var i in this.tree.children){names.push(this.tree.children[i].getLabel())}
         console.log("getting datasources", names);
-        return names;
+        this.setState({listOptions : names});
     }
 
     //adding initial data source crumb
     add_First_Crumb(tree){
-        this.setState({crumbTrail : [tree.label]});
+        this.setState({crumbTrail : [this.tree.label]});
     }
 
     //REACT LIFECYCLE METHODS
@@ -57,7 +52,7 @@ class CrumbComponent extends React.Component{
         //////////////////////
         // Register callbacks after component added to DOM
         //////////////////////
-        this.busyStatus.addImmediateCallback(this, this.get_DataSources);//retrieve the data sources as soon as weave loads and is no longer busy
+        this.busyStatus.addImmediateCallback(this, this.add_First_Crumb);//retrieve the data sources as soon as weave loads and is no longer busy
         this.active_crumb.addImmediateCallback(this, this.get_ListOptions);
     }
 
@@ -66,7 +61,7 @@ class CrumbComponent extends React.Component{
     };
 
     render (){
-        //var blah = ["bluewhat", "blue", "qu", "aa", "anbalagan"];
+        var blah = ["bluewhat", "blue", "qu", "aa", "anbalagan"];
         var listOptions = this.state.listOptions;
         var crumbTrail = this.state.crumbTrail;
         return (

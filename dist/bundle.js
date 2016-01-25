@@ -179,32 +179,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.active_crumb = window.dashboard_weave.root.getObject("active_crumb");
 	        console.log("active_crumb", _this.active_crumb);
 
-	        _this.get_DataSources = _this.get_DataSources.bind(_this);
 	        _this.add_First_Crumb = _this.add_First_Crumb.bind(_this);
 	        _this.get_ListOptions = _this.get_ListOptions.bind(_this);
+
+	        _this.tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);
 	        return _this;
 	    }
 
+	    //when an active crumb is selected get its siblings
+
 	    _createClass(CrumbComponent, [{
-	        key: 'get_DataSources',
-	        value: function get_DataSources() {
-	            var tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);
-
-	            this.add_First_Crumb(tree);
-	        }
-
-	        //when an active crumb is selected get its siblings
-
-	    }, {
 	        key: 'get_ListOptions',
 	        value: function get_ListOptions() {
-	            //getting the weave tree
 	            var names = [];
-	            for (var i in tree.children) {
-	                names.push(tree.children[i].getLabel());
+	            for (var i in this.tree.children) {
+	                names.push(this.tree.children[i].getLabel());
 	            }
 	            console.log("getting datasources", names);
-	            return names;
+	            this.setState({ listOptions: names });
 	        }
 
 	        //adding initial data source crumb
@@ -212,7 +204,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'add_First_Crumb',
 	        value: function add_First_Crumb(tree) {
-	            this.setState({ crumbTrail: [tree.label] });
+	            this.setState({ crumbTrail: [this.tree.label] });
 	        }
 
 	        //REACT LIFECYCLE METHODS
@@ -223,7 +215,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            //////////////////////
 	            // Register callbacks after component added to DOM
 	            //////////////////////
-	            this.busyStatus.addImmediateCallback(this, this.get_DataSources); //retrieve the data sources as soon as weave loads and is no longer busy
+	            this.busyStatus.addImmediateCallback(this, this.add_First_Crumb); //retrieve the data sources as soon as weave loads and is no longer busy
 	            this.active_crumb.addImmediateCallback(this, this.get_ListOptions);
 	        }
 	    }, {
@@ -234,7 +226,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            //var blah = ["bluewhat", "blue", "qu", "aa", "anbalagan"];
+	            var blah = ["bluewhat", "blue", "qu", "aa", "anbalagan"];
 	            var listOptions = this.state.listOptions;
 	            var crumbTrail = this.state.crumbTrail;
 	            return _react2.default.createElement(
@@ -359,6 +351,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.state = { hover: false, crumb_Title: null };
 	        _this.onMouse = _this.onMouse.bind(_this); // binding using the 'this' instance needed only for es6, normally done by React.createClass
 	        _this.mouseOut = _this.mouseOut.bind(_this);
+	        _this.handleClick = _this.handleClick.bind(_this);
 	        return _this;
 	    }
 
@@ -378,6 +371,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            //update the active crumb and trigger callback
 	            var active_crumb = window.dashboard_weave.root.getObject("active_crumb");
 	            active_crumb.value = this.state.crumb_Title;
+	            console.log("setting the value of active crumb linkable variable", active_crumb.value);
 	        }
 	    }, {
 	        key: "componentWillMount",
@@ -488,8 +482,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        _this.handleChange = _this.handleChange.bind(_this);
 	        _this.state = { value: "" };
-	        _this.options = props.options;
-
 	        return _this;
 	    }
 
@@ -509,7 +501,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return value.indexOf(this.state.value) != -1;
 	            }
 
-	            if (this.state.value) list = this.options.filter(filtered.bind(this));else list = this.options;
+	            if (this.state.value) list = this.props.options.filter(filtered.bind(this));else list = this.props.options;
 
 	            listUI = list.map(function (listName, index) {
 	                return _react2.default.createElement(

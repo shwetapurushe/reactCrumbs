@@ -7,6 +7,7 @@ class Crumb extends React.Component{
         this.state ={hover: false, crumb_Title : null};
         this.onMouse = this.onMouse.bind(this);// binding using the 'this' instance needed only for es6, normally done by React.createClass
         this.mouseOut = this.mouseOut.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     onMouse(){
@@ -21,6 +22,7 @@ class Crumb extends React.Component{
         //update the active crumb and trigger callback
         var active_crumb = window.dashboard_weave.root.getObject("active_crumb");
         active_crumb.value = this.state.crumb_Title;
+        console.log("setting the value of active crumb linkable variable", active_crumb.value);
     }
 
     componentWillMount (){

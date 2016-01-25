@@ -6,8 +6,6 @@ class CrumbOptionsList extends React.Component{
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.state = {value : ""};
-        this.options = props.options;
-
     }
 
     handleChange (event) {
@@ -25,9 +23,9 @@ class CrumbOptionsList extends React.Component{
         }
 
         if(this.state.value)
-            list = this.options.filter(filtered.bind(this));
+            list = this.props.options.filter(filtered.bind(this));
         else
-            list = this.options;
+            list = this.props.options;
 
         listUI = list.map(function(listName, index){
             return (<li key = {index}>{listName}</li>)
