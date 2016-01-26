@@ -24,12 +24,12 @@ class CrumbOptionsList extends React.Component{
     get_ListOptions (){
         var names = [];
         for (var i in this.props.nodes){names.push(this.props.nodes[i].getLabel())}
+        console.log("list options", names);
         this.setState({listOptions : names});
     }
 
     handle_Options_Click (treeItem){
-      var label = treeItem.label ? treeItem.label : treeItem.metadata.title;
-        this.active_crumb.value = label;
+        this.active_crumb.value = treeItem.getLabel();
     }
 
     componentDidMount(){
@@ -37,11 +37,7 @@ class CrumbOptionsList extends React.Component{
     }
 
     filtered (value){
-        var label;
-        if(!value.label)
-            label = value.metadata.title;
-        else
-            label = value.label;
+        var label = value.getLabel();
         return label.indexOf(this.state.value) != -1;
     }
 

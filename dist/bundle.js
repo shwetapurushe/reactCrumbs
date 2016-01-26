@@ -86,7 +86,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//window.dashboard_weave.root.requestObject("active_crumb", weavejs.core.LinkableString, true);//stores only the title of the active crumb
 	
-	loadWeaveFile("KSA.weave");
+	loadWeaveFile("blah.weave");
 	//rendering the data crumbs
 	
 	function loadWeaveFile(filename) {
@@ -178,6 +178,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.active_crumb = _this.settings.activeCrumb;
 	
 	        _this.tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);
+	        _this.previousNode = _this.tree;
+	        _this.active_crumb.value = _this.tree.getLabel();
+	        _this.getActiveCrumb = _this.getActiveCrumb.bind(_this);
 	        return _this;
 	    }
 	
@@ -190,6 +193,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // Register callbacks after component added to DOM
 	            //////////////////////
 	            this.busyStatus.addImmediateCallback(this, this.add_Crumb); //retrieve the data sources as soon as weave loads and is no longer busy
+	            this.active_crumb.addGroupedCallback(this, this.forceUpdate); //retrieve the data sources as soon as weave loads and is no longer busy
+	            Weave.getCallbacks(this.tree).addGroupedCallback(this, this.forceUpdate);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
@@ -197,14 +202,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.busyStatus.removeCallback(this, this.add_Crumb);
 	        }
 	    }, {
+	        key: 'getActiveCrumb',
+	        value: function getActiveCrumb() {
+	            var label = this.active_crumb.value;
+	            var treeItems = this.previousNode.getChildren();
+	            if (treeItems) {
+	                for (var i = 0; i < treeItems.length; i++) {
+	                    var treeLabel = treeItems[i].getLabel();
+	                    if (label === treeLabel) {
+	                        this.previousNode = treeItems[i];
+	                        return treeItems[i].getChildren();
+	                    }
+	                }
+	                return treeItems;
+	            }
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var sessionCrumbContainer = this.settings.crumbContainer;
+	            var treeItems = this.getActiveCrumb();
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_CrumbContainer2.default, { settings: sessionCrumbContainer, activeCrumb: this.settings.activeCrumb, tree: this.tree }),
-	                _react2.default.createElement(_crumbOptionsList2.default, { nodes: this.tree.children, activeCrumb: this.settings.activeCrumb })
+	                _react2.default.createElement(_CrumbContainer2.default, { settings: sessionCrumbContainer, activeCrumb: this.settings.activeCrumb }),
+	                _react2.default.createElement(_crumbOptionsList2.default, { nodes: treeItems, activeCrumb: this.settings.activeCrumb })
 	            );
 	        }
 	    }]);
@@ -263,7 +285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.active_crumb = _this.props.activeCrumb;
 	
 	        _this.state = {
-	            crumbTrail: [_this.props.tree.label]
+	            crumbTrail: [_this.active_crumb.value]
 	        };
 	        _this.add_Crumb = _this.add_Crumb.bind(_this);
 	        return _this;
@@ -529,13 +551,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            for (var i in this.props.nodes) {
 	                names.push(this.props.nodes[i].getLabel());
 	            }
+	            console.log("list options", names);
 	            this.setState({ listOptions: names });
 	        }
 	    }, {
 	        key: 'handle_Options_Click',
 	        value: function handle_Options_Click(treeItem) {
-	            var label = treeItem.label ? treeItem.label : treeItem.metadata.title;
-	            this.active_crumb.value = label;
+	            this.active_crumb.value = treeItem.getLabel();
 	        }
 	    }, {
 	        key: 'componentDidMount',
@@ -545,8 +567,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'filtered',
 	        value: function filtered(value) {
-	            var label;
-	            if (!value.label) label = value.metadata.title;else label = value.label;
+	            var label = value.getLabel();
 	            return label.indexOf(this.state.value) != -1;
 	        }
 	    }, {
@@ -624,19 +645,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(C_ListItem).call(this, props));
 	
-	        _this.label = props.treeItem.label;
-	        if (!_this.label) _this.label = props.treeItem.metadata.title;
+	        _this.label = props.treeItem.getLabel();
+	        /* if(!this.label)
+	             this.label = props.treeItem.metadata.title;*/
+	        //this.updateLabel = this.updateLabel.bind(this);
 	        return _this;
 	    }
 	
 	    _createClass(C_ListItem, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {}
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'li',
 	                { onClick: this.props.callback },
 	                ' ',
-	                this.label
+	                this.props.treeItem.getLabel()
 	            );
 	        }
 	    }]);

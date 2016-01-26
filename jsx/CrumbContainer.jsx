@@ -9,8 +9,9 @@ class CrumbContainer extends React.Component{
         super(props);
         this.active_crumb = this.props.activeCrumb;
 
+
         this.state = {
-            crumbTrail : [this.props.tree.label]
+            crumbTrail : [this.active_crumb.value]
         }
         this.add_Crumb = this.add_Crumb.bind(this);
     }
