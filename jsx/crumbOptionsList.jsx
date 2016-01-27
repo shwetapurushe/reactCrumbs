@@ -24,11 +24,12 @@ class CrumbOptionsList extends React.Component{
     get_ListOptions (){
         var names = [];
         for (var i in this.props.nodes){names.push(this.props.nodes[i].getLabel())}
-        console.log("list options", names);
+        //console.log("list options", names);
         this.setState({listOptions : names});
     }
 
     handle_Options_Click (treeItem){
+        //CHANGING ACTIVE CRUMB
         this.active_crumb.value = treeItem.getLabel();
     }
 

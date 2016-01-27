@@ -14,6 +14,7 @@ class CrumbContainer extends React.Component{
             crumbTrail : [this.active_crumb.value]
         }
         this.add_Crumb = this.add_Crumb.bind(this);
+
     }
 
 
@@ -22,11 +23,11 @@ class CrumbContainer extends React.Component{
         var crT = this.state.crumbTrail;
         if($.inArray(this.active_crumb.value, crT) == -1)
             crT.push(this.active_crumb.value);
-        this.setState({crumbTrail : crT});
+        //this.setState({crumbTrail : crT});
     }
 
     handleCrumbClick (name){
-        //update the active crumb and trigger callback
+        //CHANGING ACTIVE CRUMB
         this.active_crumb.value = name;
         //console.log("setting the value of active crumb linkable variable", active_crumb.value);
     }
@@ -36,12 +37,14 @@ class CrumbContainer extends React.Component{
     }
 
     render (){
+
+
         var crumbs = this.state.crumbTrail;
         var crumbUI = [];
         if(crumbs){
-            console.log("CrumbContainer contains", crumbs);
+            //console.log("CrumbContainer contains", crumbs);
              crumbUI = crumbs.map(function(name, index){
-                return (<Crumb callback = {this.handleCrumbClick.bind(this, name)} key = {index} title = {name}/>);
+                return (<Crumb callback = {this.handleCrumbClick.bind(this, name)} key = {index}  title={name}/>);
             }.bind(this));
         }
 
