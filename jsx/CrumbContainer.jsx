@@ -8,43 +8,27 @@ class CrumbContainer extends React.Component{
     constructor (props){
         super(props);
         this.active_crumb = this.props.activeCrumb;
-
-
-        this.state = {
-            crumbTrail : [this.active_crumb.value]
-        }
-        this.add_Crumb = this.add_Crumb.bind(this);
-
+        this.active_index = this.props.activeIndex;
     }
 
-
-    add_Crumb (){
-
-        var crT = this.state.crumbTrail;
-        if($.inArray(this.active_crumb.value, crT) == -1)
-            crT.push(this.active_crumb.value);
-        //this.setState({crumbTrail : crT});
-    }
-
-    handleCrumbClick (name){
+    handleCrumbClick (name, index){
         //CHANGING ACTIVE CRUMB
+        this.active_index.value = index;
         this.active_crumb.value = name;
         //console.log("setting the value of active crumb linkable variable", active_crumb.value);
     }
 
     componentDidMount (){
-        this.active_crumb.addImmediateCallback(this, this.add_Crumb);
+
     }
 
     render (){
-
-
-        var crumbs = this.state.crumbTrail;
+        var crumbs = this.props.crumbTrail;
         var crumbUI = [];
         if(crumbs){
             //console.log("CrumbContainer contains", crumbs);
              crumbUI = crumbs.map(function(name, index){
-                return (<Crumb callback = {this.handleCrumbClick.bind(this, name)} key = {index}  title={name}/>);
+                return (<Crumb callback = {this.handleCrumbClick.bind(this, name, index)} key = {index}  title={name}/>);
             }.bind(this));
         }
 

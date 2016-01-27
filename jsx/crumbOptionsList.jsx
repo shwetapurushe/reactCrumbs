@@ -30,7 +30,8 @@ class CrumbOptionsList extends React.Component{
 
     handle_Options_Click (treeItem){
         //CHANGING ACTIVE CRUMB
-        this.active_crumb.value = treeItem.getLabel();
+        var label = treeItem.getLabel();
+        this.active_crumb.value = label;
     }
 
     componentDidMount(){
