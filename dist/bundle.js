@@ -166,9 +166,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.handleActiveCrumbChange = _this.handleActiveCrumbChange.bind(_this);
 	
 	        //init settings
-	        _this.settings.activeCrumb.value = _this.tree.getLabel();
+	        _this.settings.activeCrumbName.value = _this.tree.getLabel();
 	        _this.registry = {}; //holds a map of active crumb names with an object   name :  {name , actual tree node, parent node, children nodes}
-	        _this.registry[_this.settings.activeCrumb.value] = _this.tree; //first default crumb
+	        _this.registry[_this.settings.activeCrumbName.value] = _this.tree; //first default crumb
 	        _this.settings.crumbTrail = Object.keys(_this.registry);
 	        return _this;
 	    }
@@ -177,33 +177,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _createClass(CrumbComponent, [{
 	        key: 'handleActiveCrumbChange',
-	        value: function handleActiveCrumbChange() {
-	            //get the new trail from the registry
-	            //get the nodes
-	            //call force update
-	            console.log("active crumb value changed", this.settings.activeCrumb.value);
-	        }
+	        value: function handleActiveCrumbChange() {}
+	        //get the new trail from the registry
+	        //get the nodes
+	        //toggle list visibility
+	        //call force update
 	
 	        //REACT LIFECYCLE METHODS
 	
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            this.settings.activeCrumb.addImmediateCallback(this, this.handleActiveCrumbChange);
+	            this.settings.activeCrumbName.addImmediateCallback(this, this.handleActiveCrumbChange);
+	            Weave.getCallbacks(this.tree).addGroupedCallback(this, this.forceUpdate);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
-	            this.settings.activeCrumb.removeCallback(this, handleActiveCrumbChange);
+	            this.settings.activeCrumbName.removeCallback(this, handleActiveCrumbChange);
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	
+	            var activeNode = this.registry[this.settings.activeCrumbName.value];
+	            //console.log("active node", activeNode);
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_CrumbContainer2.default, { crumbTrail: this.settings.crumbTrail })
+	                _react2.default.createElement(_CrumbContainer2.default, { activeCrumbName: this.settings.activeCrumbName, crumbTrail: this.settings.crumbTrail }),
+	                _react2.default.createElement(_crumbOptionsList2.default, { activeCrumbName: this.settings.activeCrumbName, nodes: activeNode.getChildren() })
 	            );
 	        }
 	    }]);
@@ -257,26 +259,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function CrumbContainer(props) {
 	        _classCallCheck(this, CrumbContainer);
 	
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbContainer).call(this, props));
-	
-	        console.log("trails", _this.props.crumbTrail);
-	
-	        return _this;
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbContainer).call(this, props));
 	    }
+	
+	    //CHANGES ACTIVE CRUMB NAME
 	
 	    _createClass(CrumbContainer, [{
 	        key: 'handleCrumbClick',
-	        value: function handleCrumbClick(name, index) {}
+	        value: function handleCrumbClick(name, index) {
+	            this.props.activeCrumbName.value = name;
+	            console.log("changing aCrumb from container", this.props.activeCrumbName.value, index);
+	        }
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {}
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	
-	            var crumbsUI = this.props.crumbTrail.map(function (name, index) {
-	                return _react2.default.createElement(_Crumb2.default, { key: index, title: name });
-	            });
+	            var cr = this.props.crumbTrail;
+	            var crumbsUI = cr.map((function (name, index) {
+	                return _react2.default.createElement(_Crumb2.default, { callback: this.handleCrumbClick.bind(this, name, index), key: index, title: name });
+	            }).bind(this));
 	
 	            return _react2.default.createElement(
 	                'div',
@@ -397,7 +400,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        crumbContainer: {
 	            value: Weave.linkableChild(this, new _CrumbContainerConfig2.default())
 	        },
-	        activeCrumb: {
+	        activeCrumbName: {
 	            value: Weave.linkableChild(this, new weavejs.core.LinkableString())
 	        },
 	        activeIndex: {
@@ -474,7 +477,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function CrumbOptionsList(props) {
 	        _classCallCheck(this, CrumbOptionsList);
 	
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbOptionsList).call(this, props));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbOptionsList).call(this, props));
+	
+	        _this.state = { listFilter: "" };
+	        _this.createListElement = _this.createListElement.bind(_this);
+	        _this.handleChange = _this.handleChange.bind(_this);
+	        return _this;
 	    }
 	
 	    _createClass(CrumbOptionsList, [{
@@ -482,7 +490,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function handleChange(event) {
 	            var value;
 	            value = event.target.value;
-	            this.setState({ value: value });
+	            this.setState({ listFilter: value });
 	        }
 	
 	        //when an active crumb is selected get its siblings
@@ -490,9 +498,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'get_ListOptions',
 	        value: function get_ListOptions() {}
+	
+	        //CHANGES ACTIVE CRUMB NAME
+	
 	    }, {
 	        key: 'handle_Options_Click',
-	        value: function handle_Options_Click(treeItem) {}
+	        value: function handle_Options_Click(treeItem) {
+	            this.props.activeCrumbName.value = treeItem.getLabel();
+	            console.log("changing aCrumb from list options", this.props.activeCrumbName.value);
+	        }
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {}
@@ -500,11 +514,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: 'filtered',
 	        value: function filtered(value) {
 	            var label = value.getLabel();
-	            return label.indexOf(this.state.value) != -1;
+	            return label.indexOf(this.state.listFilter) != -1;
+	        }
+	    }, {
+	        key: 'createListElement',
+	        value: function createListElement() {
+	            var list;
+	            if (this.state.listFilter) list = this.props.nodes.filter(this.filtered.bind(this));else list = this.props.nodes;
+	
+	            var x = list.map((function (node, index) {
+	                return _react2.default.createElement(_C_ListItem2.default, { key: index, treeNode: node, callback: this.handle_Options_Click.bind(this, node) });
+	            }).bind(this));
+	
+	            return x;
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	
+	            var listUI = this.createListElement();
 	
 	            return _react2.default.createElement(
 	                'div',
@@ -512,7 +540,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'searchC' },
-	                    _react2.default.createElement('input', { type: 'text', className: 'searchFilter' }),
+	                    _react2.default.createElement('input', { type: 'text', value: this.state.listFilter, onChange: this.handleChange, className: 'searchFilter' }),
 	                    _react2.default.createElement(
 	                        'i',
 	                        null,
@@ -569,7 +597,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(C_ListItem).call(this, props));
 	
-	        _this.label = props.treeItem.getLabel();
+	        _this.label = props.treeNode.getLabel();
 	        /* if(!this.label)
 	             this.label = props.treeItem.metadata.title;*/
 	        //this.updateLabel = this.updateLabel.bind(this);
@@ -586,7 +614,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                'li',
 	                { onClick: this.props.callback },
 	                ' ',
-	                this.props.treeItem.getLabel()
+	                this.props.treeNode.getLabel()
 	            );
 	        }
 	    }]);
@@ -631,7 +659,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 1px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 30px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 14px;\r\n}\r\n\r\n.onHover {\r\n    background-color: #8edbff;\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 14px;\r\n}\r\n\r\n.optionList{\r\n    border:solid 1px #619BD4;\r\n    width: 45%;\r\n    max-height : 500px;\r\n    border-radius : 7px;\r\n    padding : 5px 5px 5px 5px;\r\n    margin : 0 5px 5px 5px;\r\n    overflow-y : scroll;\r\n}\r\n\r\n.searchC{\r\n    width : 95%;\r\n    border: solid 1px #c8c2c4;\r\n    min-height: 20px;\r\n    margin : 0 5px 0px 5px;\r\n}\r\n\r\n.searchFilter{\r\n    width : 90%;\r\n    padding : 5px 5px 5px 5px;\r\n    min-height: 15px;\r\n    border: none;\r\n}", ""]);
+	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 1px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 30px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.onHover {\r\n    background-color: #8edbff;\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.optionList{\r\n    border:solid 1px #619BD4;\r\n    width: 45%;\r\n    max-height : 500px;\r\n    border-radius : 7px;\r\n    padding : 5px 5px 5px 5px;\r\n    margin : 0 5px 5px 5px;\r\n    overflow-y : scroll;\r\n}\r\n\r\n.searchC{\r\n    width : 95%;\r\n    border: solid 1px #c8c2c4;\r\n    min-height: 20px;\r\n    margin : 0 5px 0px 5px;\r\n}\r\n\r\n.searchFilter{\r\n    width : 90%;\r\n    padding : 5px 5px 5px 5px;\r\n    min-height: 15px;\r\n    border: none;\r\n}", ""]);
 	
 	// exports
 

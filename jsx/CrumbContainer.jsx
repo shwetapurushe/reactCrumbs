@@ -9,8 +9,10 @@ class CrumbContainer extends React.Component{
         super(props);
     }
 
+    //CHANGES ACTIVE CRUMB NAME
     handleCrumbClick (name, index){
-
+        this.props.activeCrumbName.value = name;
+        console.log("changing aCrumb from container",  this.props.activeCrumbName.value, index);
     }
 
     componentDidMount (){
@@ -18,10 +20,10 @@ class CrumbContainer extends React.Component{
     }
 
     render (){
-
-        var crumbsUI = this.props.crumbTrail.map(function(name, index){
-            return(<Crumb key= {index} title = {name}/>);
-        });
+        var cr = this.props.crumbTrail;
+        var crumbsUI = cr.map(function(name, index){
+            return(<Crumb callback = {this.handleCrumbClick.bind(this, name, index)} key= {index} title = {name}/>);
+        }.bind(this));
 
         return (
            <div>

@@ -5,12 +5,15 @@ class CrumbOptionsList extends React.Component{
 
     constructor (props){
         super(props);
+        this.state = {listFilter : ""};
+        this.createListElement = this.createListElement.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange (event) {
         var value;
         value =  event.target.value;
-        this.setState({value : value});
+        this.setState({listFilter : value});
 
     }
 
@@ -20,8 +23,10 @@ class CrumbOptionsList extends React.Component{
 
     }
 
+    //CHANGES ACTIVE CRUMB NAME
     handle_Options_Click (treeItem){
-
+        this.props.activeCrumbName.value = treeItem.getLabel();
+        console.log("changing aCrumb from list options",  this.props.activeCrumbName.value);
     }
 
     componentDidMount(){
@@ -30,14 +35,30 @@ class CrumbOptionsList extends React.Component{
 
     filtered (value){
         var label = value.getLabel();
-        return label.indexOf(this.state.value) != -1;
+        return label.indexOf(this.state.listFilter) != -1;
+    }
+
+    createListElement (){
+        var list;
+        if(this.state.listFilter)
+            list = this.props.nodes.filter(this.filtered.bind(this));
+        else
+            list = this.props.nodes;
+
+        var x = list.map(function(node, index){
+            return(<C_ListItem key = {index} treeNode = {node} callback = {this.handle_Options_Click.bind(this, node)}/>);
+        }.bind(this));
+
+        return x;
     }
 
     render(){
 
+        var listUI = this.createListElement();
+
         return(<div className = "optionList">
                     <div className = "searchC">
-                        <input type = "text" className = "searchFilter"></input>
+                        <input type = "text" value = {this.state.listFilter} onChange = {this.handleChange} className = "searchFilter"></input>
                         <i> icon</i>
                     </div>
 

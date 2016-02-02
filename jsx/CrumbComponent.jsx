@@ -14,9 +14,9 @@ class CrumbComponent extends React.Component{
         this.handleActiveCrumbChange = this.handleActiveCrumbChange.bind(this);
 
         //init settings
-        this.settings.activeCrumb.value = this.tree.getLabel();
+        this.settings.activeCrumbName.value = this.tree.getLabel();
         this.registry = {};//holds a map of active crumb names with an object   name :  {name , actual tree node, parent node, children nodes}
-        this.registry[this.settings.activeCrumb.value] = this.tree;//first default crumb
+        this.registry[this.settings.activeCrumbName.value] = this.tree;//first default crumb
         this.settings.crumbTrail = Object.keys(this.registry);
     }
 
@@ -24,26 +24,28 @@ class CrumbComponent extends React.Component{
     handleActiveCrumbChange (){
         //get the new trail from the registry
         //get the nodes
+        //toggle list visibility
         //call force update
-        console.log("active crumb value changed", this.settings.activeCrumb.value);
-
     }
 
 
     //REACT LIFECYCLE METHODS
     componentDidMount (){
-        this.settings.activeCrumb.addImmediateCallback(this, this.handleActiveCrumbChange);
+        this.settings.activeCrumbName.addImmediateCallback(this, this.handleActiveCrumbChange);
+        Weave.getCallbacks(this.tree).addGroupedCallback(this, this.forceUpdate);
     }
 
     componentWillUnmount (){
-        this.settings.activeCrumb.removeCallback(this, handleActiveCrumbChange);
+        this.settings.activeCrumbName.removeCallback(this, handleActiveCrumbChange);
     }
 
     render (){
-
+        var activeNode = this.registry[this.settings.activeCrumbName.value];
+        //console.log("active node", activeNode);
            return (
             <div>
-                <CrumbContainer crumbTrail = {this.settings.crumbTrail}/>
+                <CrumbContainer activeCrumbName = {this.settings.activeCrumbName} crumbTrail = {this.settings.crumbTrail}/>
+                <CrumbOptionsList activeCrumbName = {this.settings.activeCrumbName} nodes = {activeNode.getChildren()}/>
             </div>
         );
     }
