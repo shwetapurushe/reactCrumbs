@@ -68,7 +68,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _CrumbComponent2 = _interopRequireDefault(_CrumbComponent);
 	
-	__webpack_require__(12);
+	__webpack_require__(11);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -84,8 +84,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var busyStatus;
 	busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 	
-	//window.dashboard_weave.root.requestObject("active_crumb", weavejs.core.LinkableString, true);//stores only the title of the active crumb
-	
 	loadWeaveFile("blah.weave");
 	//rendering the data crumbs
 	
@@ -99,9 +97,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//this callback runs when viz weave and sessions state loads
 	function weaveReady() {
-	    //console.log("weave is ready");
+	    console.log("weave is ready");
 	    busyStatus.value = false; //once weave is ready set to true
-	    _reactDom2.default.render(React.createElement(_CrumbComponent2.default, null), document.getElementById("content"));
+	    var tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root); //new tree for every new session state load
+	
+	    //MAIN COMPONENT RENDER
+	    _reactDom2.default.render(React.createElement(_CrumbComponent2.default, { tree: tree }), document.getElementById("content"));
 	}
 
 /***/ },
@@ -140,7 +141,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _CrumbComponentConfig2 = _interopRequireDefault(_CrumbComponentConfig);
 	
-	var _crumbOptionsList = __webpack_require__(10);
+	var _crumbOptionsList = __webpack_require__(9);
 	
 	var _crumbOptionsList2 = _interopRequireDefault(_crumbOptionsList);
 	
@@ -158,78 +159,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function CrumbComponent(props) {
 	        _classCallCheck(this, CrumbComponent);
 	
-	        /////////////////////
-	        // Creating weave session state
-	        /////////////////////
-	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbComponent).call(this, props));
 	
-	        _this.settings = _this.props.settings ? _this.props.settings : new _CrumbComponentConfig2.default();
-	        _this.busyStatus = window.dashboard_weave.root.getObject("isWeaveBusy");
+	        _this.tree = _this.props.tree; //TODO decide whether to store the tree reference
+	        _this.settings = _this.settings ? _this.settings : new _CrumbComponentConfig2.default();
+	        _this.handleActiveCrumbChange = _this.handleActiveCrumbChange.bind(_this);
 	
-	        //sessioned crumb
-	        _this.active_crumb = _this.settings.activeCrumb;
-	
-	        _this.tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);
-	        _this.activeTreeNode = _this.tree; //set the first node as active initially
-	
-	        //CHANGING ACTIVE CRUMB
-	        _this.active_crumb.value = _this.tree.getLabel();
-	
-	        //keeps a log of active crumbs and the tree node object it represents
-	        _this.trailRegistry = {};
-	        _this.trailRegistry[_this.active_crumb.value] = _this.activeTreeNode;
-	
-	        _this.blah = [];
-	
-	        _this.manage_Crumbs = _this.manage_Crumbs.bind(_this);
-	        _this.getActiveTree = _this.getActiveTree.bind(_this);
+	        //init settings
+	        _this.settings.activeCrumb.value = _this.tree.getLabel();
+	        _this.registry = {}; //holds a map of active crumb names with an object   name :  {name , actual tree node, parent node, children nodes}
+	        _this.registry[_this.settings.activeCrumb.value] = _this.tree; //first default crumb
+	        _this.settings.crumbTrail = Object.keys(_this.registry);
 	        return _this;
 	    }
 	
+	    //callback whenever the active crumb name is changed
+	
 	    _createClass(CrumbComponent, [{
-	        key: 'getActiveTree',
-	        value: function getActiveTree() {
-	            var label = this.active_crumb.value;
-	            if (this.trailRegistry[label]) {
-	                //if its is in the registry return its node
-	                this.activeTreeNode = this.trailRegistry[label];
-	                return this.trailRegistry[label];
-	            }
-	
-	            var treeItems = this.activeTreeNode.getChildren();
-	            if (treeItems) {
-	                for (var i = 0; i < treeItems.length; i++) {
-	                    var treeLabel = treeItems[i].getLabel();
-	                    if (label === treeLabel) {
-	                        this.activeTreeNode = treeItems[i];
-	                        this.trailRegistry[this.active_crumb.value] = this.activeTreeNode;
-	                        return this.activeTreeNode;
-	                    }
-	                }
-	            }
-	        }
-	    }, {
-	        key: 'manage_Crumbs',
-	        value: function manage_Crumbs() {
-	
-	            if (this.blah.length == 0) this.blah = Object.keys(this.trailRegistry);
-	            // var crT = Object.keys(this.trailRegistry);
-	            var index = this.blah.indexOf(this.active_crumb.value);
-	
-	            if (index == this.settings.activeIndex.value) this.blah.splice(index, Number.MAX_VALUE);
-	
-	            if ($.inArray(this.active_crumb.value, this.blah) == -1) {
-	                this.blah.push(this.active_crumb.value);
-	            }
-	
-	            /* this.active_index = crT.indexOf(this.active_crumb.value);
-	            //console.log("info", this.active_crumb.value,  this.active_index);
-	            crT.splice( this.active_index -1, Number.MAX_VALUE);
-	            crT.push(this.active_crumb.value);*/
-	
-	            //return this.blah;
-	            //this.setState({crumbTrail : crT});
+	        key: 'handleActiveCrumbChange',
+	        value: function handleActiveCrumbChange() {
+	            //get the new trail from the registry
+	            //get the nodes
+	            //call force update
+	            console.log("active crumb value changed", this.settings.activeCrumb.value);
 	        }
 	
 	        //REACT LIFECYCLE METHODS
@@ -237,46 +189,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            //////////////////////
-	            // Register callbacks after component added to DOM
-	            //////////////////////
-	            this.busyStatus.addImmediateCallback(this, this.manage_Crumbs); //retrieve the data sources as soon as weave loads and is no longer busy
-	            //this.active_crumb.addImmediateCallback(this, this.manage_Crumbs);
-	            this.active_crumb.addGroupedCallback(this, this.forceUpdate);
-	            Weave.getCallbacks(this.tree).addGroupedCallback(this, this.forceUpdate);
+	            this.settings.activeCrumb.addImmediateCallback(this, this.handleActiveCrumbChange);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
-	            this.busyStatus.removeCallback(this, this.manage_Crumbs);
-	            this.active_crumb.removeCallback(this, this.forceUpdate);
-	            Weave.getCallbacks(this.tree).removeCallback(this, this.forceUpdate);
+	            this.settings.activeCrumb.removeCallback(this, handleActiveCrumbChange);
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var sessionCrumbContainer = this.settings.crumbContainer;
-	            var activeTree = this.getActiveTree();
-	            this.manage_Crumbs();
-	            console.log("crumbtrail", this.blah);
-	
-	            var activeNodeChildren = activeTree.getChildren();
-	
-	            /* console.log("**************NEW ROUND********************");
-	             console.log("active crumb", this.active_crumb.value);
-	             console.log("active tree node", this.activeTreeNode);
-	             console.log("active tree node children", activeNodeChildren);*/
-	            //console.log("registry", this.trailRegistry);
 	
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_CrumbContainer2.default, { settings: sessionCrumbContainer,
-	                    activeCrumb: this.active_crumb,
-	                    activeNode: activeTree,
-	                    activeIndex: this.settings.activeIndex,
-	                    crumbTrail: this.blah }),
-	                _react2.default.createElement(_crumbOptionsList2.default, { nodes: activeNodeChildren, activeCrumb: this.active_crumb })
+	                _react2.default.createElement(_CrumbContainer2.default, { crumbTrail: this.settings.crumbTrail })
 	            );
 	        }
 	    }]);
@@ -332,33 +259,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbContainer).call(this, props));
 	
-	        _this.active_crumb = _this.props.activeCrumb;
-	        _this.active_index = _this.props.activeIndex;
+	        console.log("trails", _this.props.crumbTrail);
+	
 	        return _this;
 	    }
 	
 	    _createClass(CrumbContainer, [{
 	        key: 'handleCrumbClick',
-	        value: function handleCrumbClick(name, index) {
-	            //CHANGING ACTIVE CRUMB
-	            this.active_index.value = index;
-	            this.active_crumb.value = name;
-	            //console.log("setting the value of active crumb linkable variable", active_crumb.value);
-	        }
+	        value: function handleCrumbClick(name, index) {}
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {}
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var crumbs = this.props.crumbTrail;
-	            var crumbUI = [];
-	            if (crumbs) {
-	                //console.log("CrumbContainer contains", crumbs);
-	                crumbUI = crumbs.map((function (name, index) {
-	                    return _react2.default.createElement(_Crumb2.default, { callback: this.handleCrumbClick.bind(this, name, index), key: index, title: name });
-	                }).bind(this));
-	            }
+	
+	            var crumbsUI = this.props.crumbTrail.map(function (name, index) {
+	                return _react2.default.createElement(_Crumb2.default, { key: index, title: name });
+	            });
 	
 	            return _react2.default.createElement(
 	                'div',
@@ -366,7 +284,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'crumbsContainer' },
-	                    crumbUI
+	                    crumbsUI
 	                )
 	            );
 	        }
@@ -457,57 +375,49 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+	'use strict';
 	
-	var _CrumbContainerConfig = __webpack_require__(9);
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _CrumbContainerConfig = __webpack_require__(8);
 	
 	var _CrumbContainerConfig2 = _interopRequireDefault(_CrumbContainerConfig);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	(function (module) {
-	    function CrumbComponentConfig() {
-	        //setting session state
-	        Object.defineProperties(this, {
-	            crumbContainer: {
-	                value: Weave.linkableChild(this, new _CrumbContainerConfig2.default())
-	            },
-	            activeCrumb: {
-	                value: Weave.linkableChild(this, new weavejs.core.LinkableString())
-	            },
-	            activeIndex: {
-	                value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(0))
-	            }
-	        });
-	    }
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	    module.exports = CrumbComponentConfig;
-	    Weave.registerClass('crumbs.CrumbComponentConfig', CrumbComponentConfig);
-	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)(module)))
+	var CrumbComponentConfig = function CrumbComponentConfig() {
+	    _classCallCheck(this, CrumbComponentConfig);
+	
+	    //setting session state
+	    Object.defineProperties(this, {
+	        crumbContainer: {
+	            value: Weave.linkableChild(this, new _CrumbContainerConfig2.default())
+	        },
+	        activeCrumb: {
+	            value: Weave.linkableChild(this, new weavejs.core.LinkableString())
+	        },
+	        activeIndex: {
+	            value: Weave.linkableChild(this, new weavejs.core.LinkableNumber(0))
+	        }
+	    });
+	};
+	
+	Weave.registerClass('crumbs.CrumbComponentConfig', CrumbComponentConfig);
+	exports.default = CrumbComponentConfig;
 
 /***/ },
 /* 8 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	module.exports = function (module) {
-		if (!module.webpackPolyfill) {
-			module.deprecate = function () {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	};
-
-/***/ },
-/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	
 	var _Weave = __webpack_require__(2);
 	
@@ -515,23 +425,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	(function (module) {
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	    function CrumbContainerConfig() {
-	        Object.defineProperties(this, {
-	            crumbTrail: {
-	                value: _Weave2.default.linkableChild(this, new weavejs.core.LinkableVariable(Array))
-	            }
-	        });
-	    }
+	var CrumbContainerConfig = function CrumbContainerConfig() {
+	    _classCallCheck(this, CrumbContainerConfig);
 	
-	    module.exports = CrumbContainerConfig;
-	    _Weave2.default.registerClass('crumbs.CrumbContainerConfig', CrumbContainerConfig);
-	})(module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)(module)))
+	    Object.defineProperties(this, {
+	        crumbTrail: {
+	            value: _Weave2.default.linkableChild(this, new weavejs.core.LinkableVariable(Array))
+	        }
+	    });
+	};
+	
+	_Weave2.default.registerClass('crumbs.CrumbContainerConfig', CrumbContainerConfig);
+	exports.default = CrumbContainerConfig;
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -546,7 +456,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _C_ListItem = __webpack_require__(11);
+	var _C_ListItem = __webpack_require__(10);
 	
 	var _C_ListItem2 = _interopRequireDefault(_C_ListItem);
 	
@@ -564,14 +474,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function CrumbOptionsList(props) {
 	        _classCallCheck(this, CrumbOptionsList);
 	
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbOptionsList).call(this, props));
-	
-	        _this.handleChange = _this.handleChange.bind(_this);
-	        _this.get_ListOptions = _this.get_ListOptions.bind(_this);
-	        //this.handle_Options_Click = this.handle_Options_Click.bind(this);
-	        _this.active_crumb = _this.props.activeCrumb;
-	        _this.state = { value: "" };
-	        return _this;
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbOptionsList).call(this, props));
 	    }
 	
 	    _createClass(CrumbOptionsList, [{
@@ -586,26 +489,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    }, {
 	        key: 'get_ListOptions',
-	        value: function get_ListOptions() {
-	            var names = [];
-	            for (var i in this.props.nodes) {
-	                names.push(this.props.nodes[i].getLabel());
-	            }
-	            //console.log("list options", names);
-	            this.setState({ listOptions: names });
-	        }
+	        value: function get_ListOptions() {}
 	    }, {
 	        key: 'handle_Options_Click',
-	        value: function handle_Options_Click(treeItem) {
-	            //CHANGING ACTIVE CRUMB
-	            var label = treeItem.getLabel();
-	            this.active_crumb.value = label;
-	        }
+	        value: function handle_Options_Click(treeItem) {}
 	    }, {
 	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            this.active_crumb.addImmediateCallback(this, this.get_ListOptions);
-	        }
+	        value: function componentDidMount() {}
 	    }, {
 	        key: 'filtered',
 	        value: function filtered(value) {
@@ -615,13 +505,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var listUI;
-	            var list;
-	            if (this.state.value) list = this.props.nodes.filter(this.filtered.bind(this));else list = this.props.nodes;
-	
-	            listUI = list.map((function (listItem, index) {
-	                return _react2.default.createElement(_C_ListItem2.default, { key: index, treeItem: listItem, callback: this.handle_Options_Click.bind(this, listItem) });
-	            }).bind(this)); //binding the Options list component
 	
 	            return _react2.default.createElement(
 	                'div',
@@ -629,7 +512,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'searchC' },
-	                    _react2.default.createElement('input', { type: 'text', value: this.state.value, className: 'searchFilter', onChange: this.handleChange }),
+	                    _react2.default.createElement('input', { type: 'text', className: 'searchFilter' }),
 	                    _react2.default.createElement(
 	                        'i',
 	                        null,
@@ -652,11 +535,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return CrumbOptionsList;
 	})(_react2.default.Component);
 	
-	CrumbOptionsList.defaultProps = { options: [] };
 	exports.default = CrumbOptionsList;
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -715,16 +597,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = C_ListItem;
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(13);
+	var content = __webpack_require__(12);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(15)(content, {});
+	var update = __webpack_require__(14)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -741,10 +623,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(14)();
+	exports = module.exports = __webpack_require__(13)();
 	// imports
 	
 	
@@ -755,7 +637,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -810,7 +692,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

@@ -7,7 +7,6 @@ class CrumbContainer extends React.Component{
 
     constructor (props){
         super(props);
-
     }
 
     handleCrumbClick (name, index){
@@ -20,9 +19,13 @@ class CrumbContainer extends React.Component{
 
     render (){
 
+        var crumbsUI = this.props.crumbTrail.map(function(name, index){
+            return(<Crumb key= {index} title = {name}/>);
+        });
+
         return (
            <div>
-               <div className = "crumbsContainer"></div>
+               <div className = "crumbsContainer">{crumbsUI}</div>
            </div>
         );
     }

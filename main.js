@@ -29,7 +29,10 @@ function loadWeaveFile (filename){
 
 //this callback runs when viz weave and sessions state loads
 function weaveReady (){
-    //console.log("weave is ready");
+    console.log("weave is ready");
     busyStatus.value = false;//once weave is ready set to true
-    ReactDOM.render( <CrumbComponent/>,document.getElementById("content"));
+    var tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);//new tree for every new session state load
+
+    //MAIN COMPONENT RENDER
+    ReactDOM.render( <CrumbComponent tree = {tree}/>,document.getElementById("content"));
 }
