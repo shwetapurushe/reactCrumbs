@@ -8,7 +8,7 @@ class CrumbComponentConfig{
             crumbContainer : {
                 value : Weave.linkableChild(this, new CrumbContainerConfig())
             },
-            activeCrumb : {
+            activeCrumbName : {
                 value : Weave.linkableChild(this, new weavejs.core.LinkableString())
             },
             activeIndex : {
