@@ -1,16 +1,14 @@
-
 import Weave from 'Weave';
-(function(module){
 
-    function CrumbContainerConfig (){
+class CrumbContainerConfig {
+    constructor (){
         Object.defineProperties(this, {
             crumbTrail : {
                 value : Weave.linkableChild(this,  new weavejs.core.LinkableVariable(Array))
             }
         });
     }
+}
+Weave.registerClass('crumbs.CrumbContainerConfig', CrumbContainerConfig);
+export default CrumbContainerConfig;
 
-    module.exports = CrumbContainerConfig;
-    Weave.registerClass('crumbs.CrumbContainerConfig', CrumbContainerConfig);
-
-}(module));

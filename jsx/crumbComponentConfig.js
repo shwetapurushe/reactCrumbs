@@ -1,9 +1,8 @@
-
-
 import CrumbContainerConfig from './CrumbContainerConfig';
 
-(function(module){
-    function CrumbComponentConfig (){
+class CrumbComponentConfig{
+
+    constructor (){
         //setting session state
         Object.defineProperties(this, {
             crumbContainer : {
@@ -18,11 +17,12 @@ import CrumbContainerConfig from './CrumbContainerConfig';
         });
 
     }
+}
+Weave.registerClass('crumbs.CrumbComponentConfig', CrumbComponentConfig);
+export default CrumbComponentConfig;
 
-    module.exports = CrumbComponentConfig;
-    Weave.registerClass('crumbs.CrumbComponentConfig', CrumbComponentConfig);
 
-}(module));
+
 
 
 
