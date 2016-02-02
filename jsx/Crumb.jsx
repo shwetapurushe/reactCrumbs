@@ -4,7 +4,7 @@ class Crumb extends React.Component{
 
     constructor(props){
         super(props);
-        this.state ={hover: false, crumb_Title : null};
+        this.state ={hover: false, crumbLabel : null};
         this.onMouse = this.onMouse.bind(this);// binding using the 'this' instance needed only for es6, normally done by React.createClass
         this.mouseOut = this.mouseOut.bind(this);
     }
@@ -19,20 +19,15 @@ class Crumb extends React.Component{
 
     componentWillMount (){
 
-        this.setState({crumb_Title : this.props.title });
+        this.setState({crumbLabel : this.props.label });
     }
 
     render(){
 
-        var crumbStyle;
-        if(this.state.hover){
-            crumbStyle = "onHover";
-        }
-        else
-            crumbStyle = "crumb";
+        var crumbStyle = this.state.hover ? "onCrumbHover" : "crumb";
 
         return (
-            <div onMouseOver = {this.onMouse} onMouseOut = {this.mouseOut} onClick = {this.props.callback} className = {crumbStyle}>{this.state.crumb_Title}</div>
+            <div onMouseOver = {this.onMouse} onMouseOut = {this.mouseOut} onClick = {this.props.callback} className = {crumbStyle}>{this.state.crumbLabel}</div>
         );
     }
 }

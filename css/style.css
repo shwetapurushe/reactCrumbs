@@ -16,7 +16,7 @@
     font-size: 12px;
 }
 
-.onHover {
+.onCrumbHover {
     background-color: #8edbff;
     display: inline-block;
     padding : 5px 5px 5px 5px;
@@ -35,8 +35,13 @@
     overflow-y : scroll;
 }
 
+.onC_ItemHover{
+    cursor:pointer;
+    background-color: #8edbff;
+}
+
 .searchC{
-    width : 95%;
+    width : 80%;
     border: solid 1px #c8c2c4;
     min-height: 20px;
     margin : 0 5px 0px 5px;

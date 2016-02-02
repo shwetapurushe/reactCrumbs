@@ -22,7 +22,7 @@ class CrumbContainer extends React.Component{
     render (){
         var cr = this.props.crumbTrail;
         var crumbsUI = cr.map(function(name, index){
-            return(<Crumb callback = {this.handleCrumbClick.bind(this, name, index)} key= {index} title = {name}/>);
+            return(<Crumb callback = {this.handleCrumbClick.bind(this, name, index)} key= {index} label = {name}/>);
         }.bind(this));
 
         return (

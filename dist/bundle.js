@@ -278,7 +278,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function render() {
 	            var cr = this.props.crumbTrail;
 	            var crumbsUI = cr.map((function (name, index) {
-	                return _react2.default.createElement(_Crumb2.default, { callback: this.handleCrumbClick.bind(this, name, index), key: index, title: name });
+	                return _react2.default.createElement(_Crumb2.default, { callback: this.handleCrumbClick.bind(this, name, index), key: index, label: name });
 	            }).bind(this));
 	
 	            return _react2.default.createElement(
@@ -330,7 +330,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Crumb).call(this, props));
 	
-	        _this.state = { hover: false, crumb_Title: null };
+	        _this.state = { hover: false, crumbLabel: null };
 	        _this.onMouse = _this.onMouse.bind(_this); // binding using the 'this' instance needed only for es6, normally done by React.createClass
 	        _this.mouseOut = _this.mouseOut.bind(_this);
 	        return _this;
@@ -350,21 +350,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "componentWillMount",
 	        value: function componentWillMount() {
 	
-	            this.setState({ crumb_Title: this.props.title });
+	            this.setState({ crumbLabel: this.props.label });
 	        }
 	    }, {
 	        key: "render",
 	        value: function render() {
 	
-	            var crumbStyle;
-	            if (this.state.hover) {
-	                crumbStyle = "onHover";
-	            } else crumbStyle = "crumb";
+	            var crumbStyle = this.state.hover ? "onCrumbHover" : "crumb";
 	
 	            return _react2.default.createElement(
 	                "div",
 	                { onMouseOver: this.onMouse, onMouseOut: this.mouseOut, onClick: this.props.callback, className: crumbStyle },
-	                this.state.crumb_Title
+	                this.state.crumbLabel
 	            );
 	        }
 	    }]);
@@ -541,11 +538,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    'div',
 	                    { className: 'searchC' },
 	                    _react2.default.createElement('input', { type: 'text', value: this.state.listFilter, onChange: this.handleChange, className: 'searchFilter' }),
-	                    _react2.default.createElement(
-	                        'i',
-	                        null,
-	                        ' icon'
-	                    )
+	                    _react2.default.createElement('i', { className: 'fa fa-search' })
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -569,7 +562,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
@@ -598,6 +591,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(C_ListItem).call(this, props));
 	
 	        _this.label = props.treeNode.getLabel();
+	        _this.mouseOver = _this.mouseOver.bind(_this);
+	        _this.mouseOut = _this.mouseOut.bind(_this);
+	        _this.state = { hover: false };
 	        /* if(!this.label)
 	             this.label = props.treeItem.metadata.title;*/
 	        //this.updateLabel = this.updateLabel.bind(this);
@@ -605,15 +601,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    _createClass(C_ListItem, [{
-	        key: 'componentDidMount',
+	        key: "mouseOver",
+	        value: function mouseOver() {
+	            this.setState({ hover: true });
+	        }
+	    }, {
+	        key: "mouseOut",
+	        value: function mouseOut() {
+	            this.setState({ hover: false });
+	        }
+	    }, {
+	        key: "componentDidMount",
 	        value: function componentDidMount() {}
 	    }, {
-	        key: 'render',
+	        key: "render",
 	        value: function render() {
+	            var listStyle = this.state.hover ? "onC_ItemHover" : null;
 	            return _react2.default.createElement(
-	                'li',
-	                { onClick: this.props.callback },
-	                ' ',
+	                "li",
+	                { onMouseOver: this.mouseOver, onMouseOut: this.mouseOut, className: listStyle, onClick: this.props.callback },
+	                " ",
 	                this.props.treeNode.getLabel()
 	            );
 	        }
@@ -659,7 +666,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 1px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 30px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.onHover {\r\n    background-color: #8edbff;\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.optionList{\r\n    border:solid 1px #619BD4;\r\n    width: 45%;\r\n    max-height : 500px;\r\n    border-radius : 7px;\r\n    padding : 5px 5px 5px 5px;\r\n    margin : 0 5px 5px 5px;\r\n    overflow-y : scroll;\r\n}\r\n\r\n.searchC{\r\n    width : 95%;\r\n    border: solid 1px #c8c2c4;\r\n    min-height: 20px;\r\n    margin : 0 5px 0px 5px;\r\n}\r\n\r\n.searchFilter{\r\n    width : 90%;\r\n    padding : 5px 5px 5px 5px;\r\n    min-height: 15px;\r\n    border: none;\r\n}", ""]);
+	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 1px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 30px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.onCrumbHover {\r\n    background-color: #a5f8ff;\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.optionList{\r\n    border:solid 1px #619BD4;\r\n    width: 45%;\r\n    max-height : 500px;\r\n    border-radius : 7px;\r\n    padding : 5px 5px 5px 5px;\r\n    margin : 0 5px 5px 5px;\r\n    overflow-y : scroll;\r\n}\r\n\r\n.onC_ItemHover{\r\n    cursor:pointer;\r\n    background-color: #a5f8ff;\r\n}\r\n\r\n.searchC{\r\n    width : 80%;\r\n    border: solid 1px #c8c2c4;\r\n    min-height: 20px;\r\n    margin : 0 5px 0px 5px;\r\n}\r\n\r\n.searchFilter{\r\n    width : 90%;\r\n    padding : 5px 5px 5px 5px;\r\n    min-height: 15px;\r\n    border: none;\r\n}", ""]);
 	
 	// exports
 
