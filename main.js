@@ -14,8 +14,6 @@ window.weave = new Weave();//viz weave
 var busyStatus;
 busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 
-//window.dashboard_weave.root.requestObject("active_crumb", weavejs.core.LinkableString, true);//stores only the title of the active crumb
-
 loadWeaveFile("blah.weave");
 //rendering the data crumbs
 
