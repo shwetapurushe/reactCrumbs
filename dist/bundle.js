@@ -68,7 +68,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _CrumbComponent2 = _interopRequireDefault(_CrumbComponent);
 	
-	__webpack_require__(11);
+	__webpack_require__(10);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -141,7 +141,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _CrumbComponentConfig2 = _interopRequireDefault(_CrumbComponentConfig);
 	
-	var _crumbOptionsList = __webpack_require__(9);
+	var _crumbOptionsList = __webpack_require__(8);
 	
 	var _crumbOptionsList2 = _interopRequireDefault(_crumbOptionsList);
 	
@@ -395,19 +395,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	
-	var _CrumbContainerConfig = __webpack_require__(8);
-	
-	var _CrumbContainerConfig2 = _interopRequireDefault(_CrumbContainerConfig);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -416,9 +410,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    //setting session state
 	    Object.defineProperties(this, {
-	        crumbContainer: {
-	            value: Weave.linkableChild(this, new _CrumbContainerConfig2.default())
-	        },
 	        activeCrumbName: {
 	            value: Weave.linkableChild(this, new weavejs.core.LinkableString())
 	        },
@@ -440,37 +431,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _Weave = __webpack_require__(2);
-	
-	var _Weave2 = _interopRequireDefault(_Weave);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var CrumbContainerConfig = function CrumbContainerConfig() {
-	    _classCallCheck(this, CrumbContainerConfig);
-	
-	    Object.defineProperties(this, {
-	        crumbTrail: {
-	            value: _Weave2.default.linkableChild(this, new weavejs.core.LinkableVariable(Array))
-	        }
-	    });
-	};
-	
-	_Weave2.default.registerClass('crumbs.CrumbContainerConfig', CrumbContainerConfig);
-	exports.default = CrumbContainerConfig;
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	Object.defineProperty(exports, "__esModule", {
@@ -481,7 +441,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _C_ListItem = __webpack_require__(10);
+	var _C_ListItem = __webpack_require__(9);
 	
 	var _C_ListItem2 = _interopRequireDefault(_C_ListItem);
 	
@@ -582,7 +542,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = CrumbOptionsList;
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -655,16 +615,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = C_ListItem;
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(12);
+	var content = __webpack_require__(11);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(14)(content, {});
+	var update = __webpack_require__(13)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -681,10 +641,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(13)();
+	exports = module.exports = __webpack_require__(12)();
 	// imports
 	
 	
@@ -695,7 +655,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -750,7 +710,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

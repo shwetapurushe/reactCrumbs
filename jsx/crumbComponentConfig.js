@@ -1,13 +1,8 @@
-import CrumbContainerConfig from './CrumbContainerConfig';
-
 class CrumbComponentConfig{
 
     constructor (){
         //setting session state
         Object.defineProperties(this, {
-            crumbContainer : {
-                value : Weave.linkableChild(this, new CrumbContainerConfig())
-            },
             activeCrumbName : {
                 value : Weave.linkableChild(this, new weavejs.core.LinkableString())
             },
