@@ -28,14 +28,15 @@ class CrumbOptionsList extends React.Component{
     }
 
     filtered (value){
-        var label = value.getLabel();
-        return label.indexOf(this.state.listFilter) != -1;
+        var label = value.getLabel().toUpperCase();
+        return label.indexOf(this.state.listFilter.toUpperCase()) != -1;
     }
 
     createListElement (){
         var list;
+        var nodes;
         var activeNode = this.props.trailMap[this.props.activeCrumbName.value];
-        var nodes = activeNode.getChildren();
+        if(activeNode) nodes = activeNode.getChildren();
 
         if(nodes){
             list = this.state.listFilter ? nodes.filter(this.filtered.bind(this)) :  nodes;
