@@ -22,22 +22,22 @@ class CrumbComponent extends React.Component{
     }
 
     updateRegistry (){
-        var label = this.settings.activeCrumbName.value;
+        var label = this.settings.activeNode.value.getLabel();
         if(this.registry[label]){
-            this.settings.activeNode.value = this.registry[label];
-            return;
+           // if(this.settings.activeNode.value.isBranch){//we dont want to store nodes that represent columns
+                this.settings.activeNode.value = this.registry[label];
+                return;
+           // }
         } //if its is in the registry return its node
         else{
-            this.registry[this.settings.activeCrumbName.value] = this.settings.activeNode.value;
+           //if(this.settings.activeNode.value.isBranch())
+               this.registry[this.settings.activeCrumbName.value] = this.settings.activeNode.value;
         }
     }
 
     //callback whenever the active crumb name is changed
     handleActiveCrumbChange (){
         //get the new trail from the registry
-        //get the nodes
-        //toggle list visibility
-        //call force update
         this.updateRegistry();
         this.forceUpdate();
         console.log("registry updating", this.registry);
@@ -59,7 +59,8 @@ class CrumbComponent extends React.Component{
            return (
             <div>
                 <CrumbContainer activeCrumbName = {this.settings.activeCrumbName} activeNode = {this.settings.activeNode} trailMap = {this.registry} />
-                <CrumbOptionsList activeCrumbName = {this.settings.activeCrumbName} activeNode = {this.settings.activeNode} trailMap = {this.registry}/>
+                <CrumbOptionsList activeIndex = {this.settings.activeIndex} activeCrumbName = {this.settings.activeCrumbName}
+                                  activeNode = {this.settings.activeNode} trailMap = {this.registry}/>
             </div>
         );
     }

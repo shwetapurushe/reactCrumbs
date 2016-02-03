@@ -28,7 +28,7 @@ class CrumbOptionsList extends React.Component{
     }
 
     filtered (value){
-        var label = value.getLabel().toUpperCase();
+        var label = value.getLabel().toUpperCase();//TODO try figuring an autocomplete in filter
         return label.indexOf(this.state.listFilter.toUpperCase()) != -1;
     }
 
