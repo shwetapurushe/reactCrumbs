@@ -17,16 +17,10 @@ class CrumbOptionsList extends React.Component{
 
     }
 
-
-    //when an active crumb is selected get its siblings
-    get_ListOptions (){
-
-    }
-
     //CHANGES ACTIVE CRUMB NAME
     handle_Options_Click (treeItem){
+        this.props.activeNode.value = treeItem;
         this.props.activeCrumbName.value = treeItem.getLabel();
-        console.log("changing aCrumb from list options",  this.props.activeCrumbName.value);
     }
 
     componentDidMount(){
@@ -40,32 +34,34 @@ class CrumbOptionsList extends React.Component{
 
     createListElement (){
         var list;
-        if(this.state.listFilter)
-            list = this.props.nodes.filter(this.filtered.bind(this));
-        else
-            list = this.props.nodes;
+        var activeNode = this.props.trailMap[this.props.activeCrumbName.value];
+        var nodes = activeNode.getChildren();
 
-        var x = list.map(function(node, index){
-            return(<C_ListItem key = {index} treeNode = {node} callback = {this.handle_Options_Click.bind(this, node)}/>);
-        }.bind(this));
+        if(nodes){
+            list = this.state.listFilter ? nodes.filter(this.filtered.bind(this)) :  nodes;
 
-        return x;
+            var ui = list.map(function(node, index){
+                return(<C_ListItem key = {index} treeNode = {node} callback = {this.handle_Options_Click.bind(this, node)}/>);
+            }.bind(this));
+        }
+        return ui;
     }
 
     render(){
 
         var listUI = this.createListElement();
 
-        return(<div className = "optionList">
-                    <div className = "searchC">
-                        <input type = "text" value = {this.state.listFilter} onChange = {this.handleChange} className = "searchFilter"></input>
-                        <i className = "fa fa-search"></i>
-                    </div>
+        if(listUI)
+            return(<div className = "optionList">
+                        <div className = "searchC">
+                             <input type = "text" value = {this.state.listFilter} onChange = {this.handleChange} className = "searchFilter"></input>
+                            <i className = "fa fa-search"></i>
+                         </div>
 
-                    <div>
-                        <ul>{listUI}</ul>
-                    </div>
-               </div>);
+                <div><ul>{listUI}</ul></div>
+            </div>);
+        else
+            return(<span></span>)
     }
 }
 

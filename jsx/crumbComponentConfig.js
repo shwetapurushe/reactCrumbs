@@ -15,6 +15,9 @@ class CrumbComponentConfig{
                 value : Weave.linkableChild(this, new weavejs.core.LinkableNumber(0))
             }
         });
+        this.activeNode = {
+            value : null
+        }
 
     }
 }

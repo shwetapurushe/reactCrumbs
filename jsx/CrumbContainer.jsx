@@ -10,9 +10,10 @@ class CrumbContainer extends React.Component{
     }
 
     //CHANGES ACTIVE CRUMB NAME
-    handleCrumbClick (name, index){
-        this.props.activeCrumbName.value = name;
-        console.log("changing aCrumb from container",  this.props.activeCrumbName.value, index);
+    handleCrumbClick (key, index){
+        this.props.activeNode.value = this.props.trailMap[key];
+        this.props.activeCrumbName.value = key;
+        //console.log("changing aCrumb from container",  this.props.activeCrumbName.value, index);
     }
 
     componentDidMount (){
@@ -20,9 +21,9 @@ class CrumbContainer extends React.Component{
     }
 
     render (){
-        var cr = this.props.crumbTrail;
-        var crumbsUI = cr.map(function(name, index){
-            return(<Crumb callback = {this.handleCrumbClick.bind(this, name, index)} key= {index} label = {name}/>);
+        var cr = Object.keys(this.props.trailMap)//getting the latest trail i.e. names of nodes in the registry
+        var crumbsUI = cr.map(function(key, index){
+            return(<Crumb callback = {this.handleCrumbClick.bind(this, key, index)} key= {index} node= {this.props.trailMap[key]}/>);
         }.bind(this));
 
         return (
