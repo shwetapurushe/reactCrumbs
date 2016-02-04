@@ -20,7 +20,7 @@ class CrumbOptionsList extends React.Component{
     //CHANGES ACTIVE CRUMB NAME
     handle_Options_Click (treeItem){
         this.props.activeNode.value = treeItem;
-        this.props.activeCrumbName.value = treeItem.getLabel();
+        this.props.activeCrumbName.value = this.props.getLabel(treeItem);
     }
 
     componentDidMount(){
@@ -36,13 +36,14 @@ class CrumbOptionsList extends React.Component{
         var list;
         var nodes;
         var activeNode = this.props.trailMap[this.props.activeCrumbName.value];
-        if(activeNode) nodes = activeNode.getChildren();
+        if(activeNode) nodes = this.props.getChildren(activeNode);
 
         if(nodes){
             list = this.state.listFilter ? nodes.filter(this.filtered.bind(this)) :  nodes;
 
             var ui = list.map(function(node, index){
-                return(<C_ListItem key = {index} treeNode = {node} callback = {this.handle_Options_Click.bind(this, node)}/>);
+                return(<C_ListItem  getLabel = {this.props.getLabel} getChildren = {this.props.getChildren}
+                                    key = {index} treeNode = {node} callback = {this.handle_Options_Click.bind(this, node)}/>);
             }.bind(this));
         }
         return ui;

@@ -85,24 +85,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 	
 	loadWeaveFile("blah.weave");
-	//rendering the data crumbs
 	
 	function loadWeaveFile(filename) {
-	    //console.log("loading ", filename);
 	    busyStatus.value = true; //setting default value as false
-	
 	    //loading the weave session state
 	    WeaveUI.loadLayout(weave, filename, "weaveElt", weaveReady);
 	};
+	
+	function fetchTree() {
+	    var tree;
+	    //WEAVE TREE
+	    //tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);//new tree for every new session state load
+	    //ReactDOM.render( <CrumbComponent label = "getLabel" children = "getChildren" tree = {tree}/>,document.getElementById("content"));
+	
+	    //CUSTOM TREE
+	    loadJSON(function (response) {
+	        tree = JSON.parse(response);
+	        //MAIN COMPONENT RENDER
+	        _reactDom2.default.render(React.createElement(_CrumbComponent2.default, { label: 'name', children: 'children', tree: tree }), document.getElementById("content"));
+	    });
+	}
 	
 	//this callback runs when viz weave and sessions state loads
 	function weaveReady() {
 	    console.log("weave is ready");
 	    busyStatus.value = false; //once weave is ready set to true
-	    var tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root); //new tree for every new session state load
 	
-	    //MAIN COMPONENT RENDER
-	    _reactDom2.default.render(React.createElement(_CrumbComponent2.default, { tree: tree }), document.getElementById("content"));
+	    fetchTree();
+	}
+	
+	//TODO move to a utility module later
+	// reference http://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
+	function loadJSON(callback) {
+	
+	    var xobj = new XMLHttpRequest();
+	    xobj.overrideMimeType("application/json");
+	    xobj.open('GET', './lib/flare.json', true);
+	    xobj.onreadystatechange = function () {
+	        if (xobj.readyState == 4 && xobj.status == "200") {
+	            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+	            callback(xobj.responseText);
+	        }
+	    };
+	    xobj.send(null);
 	}
 
 /***/ },
@@ -165,19 +190,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.settings = _this.settings ? _this.settings : new _CrumbComponentConfig2.default();
 	        _this.handleActiveCrumbChange = _this.handleActiveCrumbChange.bind(_this);
 	        _this.updateRegistry = _this.updateRegistry.bind(_this);
+	        _this.getTreeChildren = _this.getTreeChildren.bind(_this);
+	        _this.getTreeLabel = _this.getTreeLabel.bind(_this);
 	
 	        //init settings
-	        _this.settings.activeCrumbName.value = _this.tree.getLabel();
+	        _this.settings.activeCrumbName.value = _this.getTreeLabel();
 	        _this.registry = {}; //holds a map of active crumb names with an object   name :  {name , actual tree node, parent node, children nodes}
 	        _this.registry[_this.settings.activeCrumbName.value] = _this.tree; //first default crumb
 	        _this.settings.crumbTrail = Object.keys(_this.registry);
 	        return _this;
 	    }
 	
+	    //contributed by asanjay
+	
 	    _createClass(CrumbComponent, [{
+	        key: 'getTreeLabel',
+	        value: function getTreeLabel(node) {
+	            var tree = this.props.tree;
+	            if (node) tree = node;
+	            if (tree[this.props.label] instanceof Function) {
+	                return tree[this.props.label]();
+	            } else {
+	                return tree[this.props.label];
+	            }
+	        }
+	
+	        //contributed by asanjay
+	
+	    }, {
+	        key: 'getTreeChildren',
+	        value: function getTreeChildren(node) {
+	            var tree = this.props.tree;
+	            if (node) tree = node;
+	            if (tree[this.props.children] instanceof Function) {
+	                return tree[this.props.children]();
+	            } else {
+	                return tree[this.props.children];
+	            }
+	        }
+	    }, {
 	        key: 'updateRegistry',
 	        value: function updateRegistry() {
-	            var label = this.settings.activeNode.value.getLabel();
+	            var label = this.getTreeLabel(this.settings.activeNode.value);
 	            if (this.registry[label]) {
 	                this.settings.activeNode.value = this.registry[label];
 	                var keys = Object.keys(this.registry);
@@ -222,9 +276,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_CrumbContainer2.default, { activeIndex: this.settings.activeIndex, activeCrumbName: this.settings.activeCrumbName,
+	                _react2.default.createElement(_CrumbContainer2.default, { getLabel: this.getTreeLabel, getChildren: this.getTreeChildren,
+	                    activeIndex: this.settings.activeIndex, activeCrumbName: this.settings.activeCrumbName,
 	                    activeNode: this.settings.activeNode, trailMap: this.registry }),
-	                _react2.default.createElement(_crumbOptionsList2.default, { activeCrumbName: this.settings.activeCrumbName, activeNode: this.settings.activeNode, trailMap: this.registry })
+	                _react2.default.createElement(_crumbOptionsList2.default, { activeCrumbName: this.settings.activeCrumbName, activeNode: this.settings.activeNode, trailMap: this.registry,
+	                    getLabel: this.getTreeLabel, getChildren: this.getTreeChildren })
 	            );
 	        }
 	    }]);
@@ -298,7 +354,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function render() {
 	            var cr = Object.keys(this.props.trailMap); //getting the latest trail i.e. names of nodes in the registry
 	            var crumbsUI = cr.map((function (key, index) {
-	                return _react2.default.createElement(_Crumb2.default, { callback: this.handleCrumbClick.bind(this, key, index), key: index, node: this.props.trailMap[key] });
+	                return _react2.default.createElement(_Crumb2.default, { getLabel: this.props.getLabel, getChildren: this.props.getChildren,
+	                    callback: this.handleCrumbClick.bind(this, key, index), key: index, node: this.props.trailMap[key] });
 	            }).bind(this));
 	
 	            return _react2.default.createElement(
@@ -369,7 +426,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "componentWillMount",
 	        value: function componentWillMount() {
-	            var label = this.props.node.getLabel();
+	            var label = this.props.getLabel(this.props.node);
 	            this.setState({ crumbLabel: label });
 	        }
 	    }, {
@@ -382,7 +439,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                "div",
 	                { onMouseOver: this.onMouse, onMouseOut: this.mouseOut, onClick: this.props.callback, className: crumbStyle },
 	                this.state.crumbLabel,
-	                this.props.node.isBranch() ? _react2.default.createElement("i", { className: "fa fa-chevron-circle-right", style: iStyle }) : null
+	                this.props.getChildren(this.props.node) ? _react2.default.createElement("i", { className: "fa fa-chevron-circle-right", style: iStyle }) : null
 	            );
 	        }
 	    }]);
@@ -480,7 +537,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: 'handle_Options_Click',
 	        value: function handle_Options_Click(treeItem) {
 	            this.props.activeNode.value = treeItem;
-	            this.props.activeCrumbName.value = treeItem.getLabel();
+	            this.props.activeCrumbName.value = this.props.getLabel(treeItem);
 	        }
 	    }, {
 	        key: 'componentDidMount',
@@ -497,13 +554,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var list;
 	            var nodes;
 	            var activeNode = this.props.trailMap[this.props.activeCrumbName.value];
-	            if (activeNode) nodes = activeNode.getChildren();
+	            if (activeNode) nodes = this.props.getChildren(activeNode);
 	
 	            if (nodes) {
 	                list = this.state.listFilter ? nodes.filter(this.filtered.bind(this)) : nodes;
 	
 	                var ui = list.map((function (node, index) {
-	                    return _react2.default.createElement(_C_ListItem2.default, { key: index, treeNode: node, callback: this.handle_Options_Click.bind(this, node) });
+	                    return _react2.default.createElement(_C_ListItem2.default, { getLabel: this.props.getLabel, getChildren: this.props.getChildren,
+	                        key: index, treeNode: node, callback: this.handle_Options_Click.bind(this, node) });
 	                }).bind(this));
 	            }
 	            return ui;
@@ -573,7 +631,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(C_ListItem).call(this, props));
 	
-	        _this.label = props.treeNode.getLabel();
+	        _this.label = _this.props.getLabel(_this.props.treeNode);
 	        _this.mouseOver = _this.mouseOver.bind(_this);
 	        _this.mouseOut = _this.mouseOut.bind(_this);
 	        _this.state = { hover: false };
@@ -605,8 +663,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                "li",
 	                { onMouseOver: this.mouseOver, onMouseOut: this.mouseOut, className: listStyle, onClick: this.props.callback },
 	                " ",
-	                this.props.treeNode.getLabel(),
-	                this.props.treeNode.isBranch() ? _react2.default.createElement("i", { className: "fa fa-caret-right", style: iStyle }) : null
+	                this.props.getLabel(this.props.treeNode),
+	                this.props.getChildren(this.props.treeNode) ? _react2.default.createElement("i", { className: "fa fa-caret-right", style: iStyle }) : null
 	            );
 	        }
 	    }]);

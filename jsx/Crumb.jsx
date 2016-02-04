@@ -18,7 +18,7 @@ class Crumb extends React.Component{
     }
 
     componentWillMount (){
-        var label = this.props.node.getLabel();
+        var label = this.props.getLabel(this.props.node);
         this.setState({crumbLabel : label });
     }
 
@@ -28,7 +28,7 @@ class Crumb extends React.Component{
         var iStyle = {paddingLeft : "2px"};
         return (
             <div onMouseOver = {this.onMouse} onMouseOut = {this.mouseOut} onClick = {this.props.callback} className = {crumbStyle}>{this.state.crumbLabel}
-                {this.props.node.isBranch() ? <i className = "fa fa-chevron-circle-right" style = {iStyle}></i> : null}
+                {this.props.getChildren(this.props.node) ? <i className = "fa fa-chevron-circle-right" style = {iStyle}></i> : null}
             </div>
         );
     }

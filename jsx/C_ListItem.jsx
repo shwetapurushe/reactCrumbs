@@ -5,7 +5,7 @@ class C_ListItem extends React.Component{
     constructor (props){
         super(props);
 
-        this.label = props.treeNode.getLabel();
+        this.label = this.props.getLabel(this.props.treeNode);
         this.mouseOver = this.mouseOver.bind(this);
         this.mouseOut = this.mouseOut.bind(this);
         this.state = {hover: false};
@@ -28,8 +28,8 @@ class C_ListItem extends React.Component{
     render (){
         var iStyle = {paddingLeft : "2px"};
         var listStyle = this.state.hover ?  "onC_ItemHover" : null;
-        return (<li onMouseOver = {this.mouseOver} onMouseOut = {this.mouseOut} className = {listStyle} onClick = {this.props.callback}> {this.props.treeNode.getLabel()}
-                        {this.props.treeNode.isBranch() ? <i className = "fa fa-caret-right" style = {iStyle}></i> :null}
+        return (<li onMouseOver = {this.mouseOver} onMouseOut = {this.mouseOut} className = {listStyle} onClick = {this.props.callback}> {this.props.getLabel(this.props.treeNode)}
+                        {this.props.getChildren(this.props.treeNode) ? <i className = "fa fa-caret-right" style = {iStyle}></i> :null}
                     </li>);
     }
 }

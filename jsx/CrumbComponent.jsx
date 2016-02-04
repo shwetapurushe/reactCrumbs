@@ -13,16 +13,42 @@ class CrumbComponent extends React.Component{
         this.settings = this.settings ? this.settings : new CrumbComponentConfig();
         this.handleActiveCrumbChange = this.handleActiveCrumbChange.bind(this);
         this.updateRegistry = this.updateRegistry.bind(this);
+        this.getTreeChildren = this.getTreeChildren.bind(this);
+        this.getTreeLabel = this.getTreeLabel.bind(this);
 
         //init settings
-        this.settings.activeCrumbName.value = this.tree.getLabel();
+        this.settings.activeCrumbName.value = this.getTreeLabel();
         this.registry = {};//holds a map of active crumb names with an object   name :  {name , actual tree node, parent node, children nodes}
         this.registry[this.settings.activeCrumbName.value] = this.tree;//first default crumb
         this.settings.crumbTrail = Object.keys(this.registry);
     }
 
+    //contributed by asanjay
+    getTreeLabel(node) {
+        var tree = this.props.tree;
+        if(node)
+            tree = node;
+        if(tree[this.props.label] instanceof Function){
+            return tree[this.props.label]();
+        }else{
+            return tree[this.props.label];
+        }
+    }
+
+    //contributed by asanjay
+    getTreeChildren(node){
+        var tree = this.props.tree;
+        if(node)
+            tree = node;
+        if(tree[this.props.children] instanceof Function){
+            return tree[this.props.children]();
+        }else{
+            return tree[this.props.children];
+        }
+    }
+
     updateRegistry (){
-        var label = this.settings.activeNode.value.getLabel();
+        var label = this.getTreeLabel(this.settings.activeNode.value);
         if(this.registry[label]){
             this.settings.activeNode.value = this.registry[label];
             var keys = Object.keys(this.registry);
@@ -59,9 +85,11 @@ class CrumbComponent extends React.Component{
        this.settings.activeNode.value = this.registry[this.settings.activeCrumbName.value];
            return (
             <div>
-                <CrumbContainer activeIndex = {this.settings.activeIndex} activeCrumbName = {this.settings.activeCrumbName}
+                <CrumbContainer getLabel = {this.getTreeLabel} getChildren = {this.getTreeChildren}
+                                activeIndex = {this.settings.activeIndex} activeCrumbName = {this.settings.activeCrumbName}
                                 activeNode = {this.settings.activeNode} trailMap = {this.registry} />
-                <CrumbOptionsList activeCrumbName = {this.settings.activeCrumbName} activeNode = {this.settings.activeNode} trailMap = {this.registry}/>
+                <CrumbOptionsList activeCrumbName = {this.settings.activeCrumbName} activeNode = {this.settings.activeNode} trailMap = {this.registry}
+                                  getLabel = {this.getTreeLabel} getChildren = {this.getTreeChildren}/>
             </div>
         );
     }
