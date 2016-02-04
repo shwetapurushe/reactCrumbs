@@ -25,10 +25,7 @@ class Crumb extends React.Component{
     render(){
 
         var crumbStyle = this.state.hover ? "onCrumbHover" : "crumb";
-        var iStyle = {
-            paddingLeft : "2px"
-        };
-
+        var iStyle = {paddingLeft : "2px"};
         return (
             <div onMouseOver = {this.onMouse} onMouseOut = {this.mouseOut} onClick = {this.props.callback} className = {crumbStyle}>{this.state.crumbLabel}
                 {this.props.node.isBranch() ? <i className = "fa fa-chevron-circle-right" style = {iStyle}></i> : null}

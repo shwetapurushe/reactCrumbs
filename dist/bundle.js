@@ -181,7 +181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (this.registry[label]) {
 	                this.settings.activeNode.value = this.registry[label];
 	                var keys = Object.keys(this.registry);
-	                var keystoRemove = keys.splice(this.settings.activeIndex.value + 2, Number.MAX_VALUE);
+	                var keystoRemove = keys.splice(this.settings.activeIndex.value + 1, Number.MAX_VALUE);
 	                for (var i in keystoRemove) {
 	                    delete this.registry[keystoRemove[i]];
 	                }
@@ -377,10 +377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function render() {
 	
 	            var crumbStyle = this.state.hover ? "onCrumbHover" : "crumb";
-	            var iStyle = {
-	                paddingLeft: "2px"
-	            };
-	
+	            var iStyle = { paddingLeft: "2px" };
 	            return _react2.default.createElement(
 	                "div",
 	                { onMouseOver: this.onMouse, onMouseOut: this.mouseOut, onClick: this.props.callback, className: crumbStyle },
@@ -602,12 +599,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "render",
 	        value: function render() {
+	            var iStyle = { paddingLeft: "2px" };
 	            var listStyle = this.state.hover ? "onC_ItemHover" : null;
 	            return _react2.default.createElement(
 	                "li",
 	                { onMouseOver: this.mouseOver, onMouseOut: this.mouseOut, className: listStyle, onClick: this.props.callback },
 	                " ",
-	                this.props.treeNode.getLabel()
+	                this.props.treeNode.getLabel(),
+	                this.props.treeNode.isBranch() ? _react2.default.createElement("i", { className: "fa fa-caret-right", style: iStyle }) : null
 	            );
 	        }
 	    }]);
@@ -652,7 +651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 1px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 30px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 3px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.onCrumbHover {\r\n    background-color: #8edbff;\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 3px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.optionList{\r\n    border:solid 1px #619BD4;\r\n    width: 45%;\r\n    max-height : 500px;\r\n    border-radius : 7px;\r\n    padding : 5px 5px 5px 5px;\r\n    margin : 0 5px 5px 5px;\r\n    overflow-y : scroll;\r\n}\r\n\r\n.onC_ItemHover{\r\n    cursor:pointer;\r\n    background-color: #8edbff;\r\n}\r\n\r\n.searchC{\r\n    width : 80%;\r\n    border: solid 1px #c8c2c4;\r\n    min-height: 20px;\r\n    margin : 0 5px 0px 5px;\r\n}\r\n\r\n.searchFilter{\r\n    width : 90%;\r\n    padding : 5px 5px 5px 5px;\r\n    min-height: 15px;\r\n    border: none;\r\n}", ""]);
+	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 1px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 30px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 3px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.onCrumbHover {\r\n    background-color: #8edbff;\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 3px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.optionList{\r\n    border:solid 1px #619BD4;\r\n    width: 45%;\r\n    max-height : 500px;\r\n    border-radius : 7px;\r\n    padding : 5px 5px 5px 5px;\r\n    margin : 0 5px 5px 5px;\r\n    overflow-y : scroll;\r\n}\r\nul{\r\n    list-style-type: none;\r\n    margin: 5px;\r\n    /*line-height: 100%;*/\r\n    padding:0;\r\n}\r\n\r\n.onC_ItemHover{\r\n    cursor:pointer;\r\n    background-color: #8edbff;\r\n}\r\n\r\n.searchC{\r\n    width : 80%;\r\n    border: solid 1px #c8c2c4;\r\n    min-height: 20px;\r\n    margin : 0 5px 0px 5px;\r\n}\r\n\r\n.searchFilter{\r\n    width : 90%;\r\n    padding : 5px 5px 5px 5px;\r\n    min-height: 15px;\r\n    border: none;\r\n}", ""]);
 	
 	// exports
 

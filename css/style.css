@@ -34,6 +34,12 @@
     margin : 0 5px 5px 5px;
     overflow-y : scroll;
 }
+ul{
+    list-style-type: none;
+    margin: 5px;
+    /*line-height: 100%;*/
+    padding:0;
+}
 
 .onC_ItemHover{
     cursor:pointer;
