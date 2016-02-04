@@ -179,13 +179,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function updateRegistry() {
 	            var label = this.settings.activeNode.value.getLabel();
 	            if (this.registry[label]) {
-	                // if(this.settings.activeNode.value.isBranch){//we dont want to store nodes that represent columns
 	                this.settings.activeNode.value = this.registry[label];
+	                var keys = Object.keys(this.registry);
+	                var keystoRemove = keys.splice(this.settings.activeIndex.value + 2, Number.MAX_VALUE);
+	                for (var i in keystoRemove) {
+	                    delete this.registry[keystoRemove[i]];
+	                }
 	                return;
-	                // }
 	            } //if its is in the registry return its node
 	            else {
-	                    //if(this.settings.activeNode.value.isBranch())
 	                    this.registry[this.settings.activeCrumbName.value] = this.settings.activeNode.value;
 	                }
 	        }
@@ -198,7 +200,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            //get the new trail from the registry
 	            this.updateRegistry();
 	            this.forceUpdate();
-	            console.log("registry updating", this.registry);
 	        }
 	
 	        //REACT LIFECYCLE METHODS
@@ -221,9 +222,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_CrumbContainer2.default, { activeCrumbName: this.settings.activeCrumbName, activeNode: this.settings.activeNode, trailMap: this.registry }),
-	                _react2.default.createElement(_crumbOptionsList2.default, { activeIndex: this.settings.activeIndex, activeCrumbName: this.settings.activeCrumbName,
-	                    activeNode: this.settings.activeNode, trailMap: this.registry })
+	                _react2.default.createElement(_CrumbContainer2.default, { activeIndex: this.settings.activeIndex, activeCrumbName: this.settings.activeCrumbName,
+	                    activeNode: this.settings.activeNode, trailMap: this.registry }),
+	                _react2.default.createElement(_crumbOptionsList2.default, { activeCrumbName: this.settings.activeCrumbName, activeNode: this.settings.activeNode, trailMap: this.registry })
 	            );
 	        }
 	    }]);
@@ -285,6 +286,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(CrumbContainer, [{
 	        key: 'handleCrumbClick',
 	        value: function handleCrumbClick(key, index) {
+	            this.props.activeIndex.value = index;
 	            this.props.activeNode.value = this.props.trailMap[key];
 	            this.props.activeCrumbName.value = key;
 	        }
@@ -650,7 +652,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	// module
-	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 1px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 30px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 3px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.onCrumbHover {\r\n    background-color: #8edbff;\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 5px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.optionList{\r\n    border:solid 1px #619BD4;\r\n    width: 45%;\r\n    max-height : 500px;\r\n    border-radius : 7px;\r\n    padding : 5px 5px 5px 5px;\r\n    margin : 0 5px 5px 5px;\r\n    overflow-y : scroll;\r\n}\r\n\r\n.onC_ItemHover{\r\n    cursor:pointer;\r\n    background-color: #8edbff;\r\n}\r\n\r\n.searchC{\r\n    width : 80%;\r\n    border: solid 1px #c8c2c4;\r\n    min-height: 20px;\r\n    margin : 0 5px 0px 5px;\r\n}\r\n\r\n.searchFilter{\r\n    width : 90%;\r\n    padding : 5px 5px 5px 5px;\r\n    min-height: 15px;\r\n    border: none;\r\n}", ""]);
+	exports.push([module.id, ".crumbsContainer{\r\n    border: solid 1px #619BD4;\r\n    border-radius : 7px;\r\n    /*display: inline-block;*/\r\n    overflow-x : auto;\r\n    width: 45%;\r\n    min-height: 30px;\r\n    margin : 5px 5px 0 5px;\r\n}\r\n\r\n.crumb {\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 3px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.onCrumbHover {\r\n    background-color: #8edbff;\r\n    display: inline-block;\r\n    padding : 5px 5px 5px 3px;\r\n    float:left;\r\n    margin: 0 0 0 3px;\r\n    font-size: 12px;\r\n}\r\n\r\n.optionList{\r\n    border:solid 1px #619BD4;\r\n    width: 45%;\r\n    max-height : 500px;\r\n    border-radius : 7px;\r\n    padding : 5px 5px 5px 5px;\r\n    margin : 0 5px 5px 5px;\r\n    overflow-y : scroll;\r\n}\r\n\r\n.onC_ItemHover{\r\n    cursor:pointer;\r\n    background-color: #8edbff;\r\n}\r\n\r\n.searchC{\r\n    width : 80%;\r\n    border: solid 1px #c8c2c4;\r\n    min-height: 20px;\r\n    margin : 0 5px 0px 5px;\r\n}\r\n\r\n.searchFilter{\r\n    width : 90%;\r\n    padding : 5px 5px 5px 5px;\r\n    min-height: 15px;\r\n    border: none;\r\n}", ""]);
 	
 	// exports
 

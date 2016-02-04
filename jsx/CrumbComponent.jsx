@@ -24,14 +24,16 @@ class CrumbComponent extends React.Component{
     updateRegistry (){
         var label = this.settings.activeNode.value.getLabel();
         if(this.registry[label]){
-           // if(this.settings.activeNode.value.isBranch){//we dont want to store nodes that represent columns
-                this.settings.activeNode.value = this.registry[label];
-                return;
-           // }
+            this.settings.activeNode.value = this.registry[label];
+            var keys = Object.keys(this.registry);
+            var keystoRemove = keys.splice(this.settings.activeIndex.value + 1, Number.MAX_VALUE);
+            for(var i in keystoRemove){
+                delete this.registry[keystoRemove[i]];
+            }
+            return;
         } //if its is in the registry return its node
         else{
-           //if(this.settings.activeNode.value.isBranch())
-               this.registry[this.settings.activeCrumbName.value] = this.settings.activeNode.value;
+           this.registry[this.settings.activeCrumbName.value] = this.settings.activeNode.value;
         }
     }
 
@@ -40,7 +42,6 @@ class CrumbComponent extends React.Component{
         //get the new trail from the registry
         this.updateRegistry();
         this.forceUpdate();
-        console.log("registry updating", this.registry);
     }
 
 
@@ -58,9 +59,9 @@ class CrumbComponent extends React.Component{
        this.settings.activeNode.value = this.registry[this.settings.activeCrumbName.value];
            return (
             <div>
-                <CrumbContainer activeCrumbName = {this.settings.activeCrumbName} activeNode = {this.settings.activeNode} trailMap = {this.registry} />
-                <CrumbOptionsList activeIndex = {this.settings.activeIndex} activeCrumbName = {this.settings.activeCrumbName}
-                                  activeNode = {this.settings.activeNode} trailMap = {this.registry}/>
+                <CrumbContainer activeIndex = {this.settings.activeIndex} activeCrumbName = {this.settings.activeCrumbName}
+                                activeNode = {this.settings.activeNode} trailMap = {this.registry} />
+                <CrumbOptionsList activeCrumbName = {this.settings.activeCrumbName} activeNode = {this.settings.activeNode} trailMap = {this.registry}/>
             </div>
         );
     }

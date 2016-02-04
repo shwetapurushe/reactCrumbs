@@ -11,6 +11,7 @@ class CrumbContainer extends React.Component{
 
     //CHANGES ACTIVE CRUMB NAME
     handleCrumbClick (key, index){
+        this.props.activeIndex.value = index;
         this.props.activeNode.value = this.props.trailMap[key];
         this.props.activeCrumbName.value = key;
     }
