@@ -15,24 +15,48 @@ var busyStatus;
 busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 
 loadWeaveFile("blah.weave");
-//rendering the data crumbs
-
 
 function loadWeaveFile (filename){
-    //console.log("loading ", filename);
     busyStatus.value = true;//setting default value as false
-
     //loading the weave session state
     WeaveUI.loadLayout(weave, filename, "weaveElt", weaveReady );
-
 };
+
+function fetchTree (){
+    var tree;
+    //WEAVE TREE
+    //tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);//new tree for every new session state load
+    //ReactDOM.render( <CrumbComponent label = "getLabel" children = "getChildren" tree = {tree}/>,document.getElementById("content"));
+
+    //CUSTOM TREE
+    loadJSON(function(response){
+        tree = JSON.parse(response);
+        //MAIN COMPONENT RENDER
+        ReactDOM.render( <CrumbComponent label = "name" children = "children" tree = {tree}/>,document.getElementById("content"));
+    });
+}
+
 
 //this callback runs when viz weave and sessions state loads
 function weaveReady (){
     console.log("weave is ready");
     busyStatus.value = false;//once weave is ready set to true
-    var tree = new weavejs.data.hierarchy.WeaveRootDataTreeNode(weave.root);//new tree for every new session state load
 
-    //MAIN COMPONENT RENDER
-    ReactDOM.render( <CrumbComponent tree = {tree}/>,document.getElementById("content"));
+   fetchTree();
+}
+
+//TODO move to a utility module later
+// reference http://codepen.io/KryptoniteDove/post/load-json-file-locally-using-pure-javascript
+function loadJSON(callback) {
+
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('GET', './lib/flare.json', true);
+    xobj.onreadystatechange = function () {
+        if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+        }
+    };
+    xobj.send(null);
 }
