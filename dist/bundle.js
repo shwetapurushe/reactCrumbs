@@ -84,7 +84,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var busyStatus;
 	busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 	
-	loadWeaveFile("blah.weave");
+	loadWeaveFile("ELM_Indicators_Dashboard.weave");
 	
 	function loadWeaveFile(filename) {
 	    busyStatus.value = true; //setting default value as false
@@ -334,7 +334,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function CrumbContainer(props) {
 	        _classCallCheck(this, CrumbContainer);
 	
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbContainer).call(this, props));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CrumbContainer).call(this, props));
+	
+	        _this.changeDashBoardView = _this.changeDashBoardView.bind(_this);
+	        return _this;
 	    }
 	
 	    //CHANGES ACTIVE CRUMB NAME
@@ -345,6 +348,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.props.activeIndex.value = index;
 	            this.props.activeNode.value = this.props.trailMap[key];
 	            this.props.activeCrumbName.value = key;
+	
+	            //put this function in weave utils
+	            this.changeDashBoardView(key);
+	        }
+	    }, {
+	        key: 'changeDashBoardView',
+	        value: function changeDashBoardView(viewName) {
+	            weave.path('SessionStateMenuTool').push('selectedChoice').state(viewName);
 	        }
 	    }, {
 	        key: 'componentDidMount',

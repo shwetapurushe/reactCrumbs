@@ -14,7 +14,7 @@ window.weave = new Weave();//viz weave
 var busyStatus;
 busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 
-loadWeaveFile("blah.weave");
+loadWeaveFile("ELM_Indicators_Dashboard.weave");
 
 function loadWeaveFile (filename){
     busyStatus.value = true;//setting default value as false

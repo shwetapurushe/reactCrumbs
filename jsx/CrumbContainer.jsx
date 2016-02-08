@@ -7,6 +7,7 @@ class CrumbContainer extends React.Component{
 
     constructor (props){
         super(props);
+        this.changeDashBoardView = this.changeDashBoardView.bind(this);
     }
 
     //CHANGES ACTIVE CRUMB NAME
@@ -14,6 +15,13 @@ class CrumbContainer extends React.Component{
         this.props.activeIndex.value = index;
         this.props.activeNode.value = this.props.trailMap[key];
         this.props.activeCrumbName.value = key;
+
+        //put this function in weave utils
+        this.changeDashBoardView (key);
+    }
+
+    changeDashBoardView (viewName){
+        weave.path('SessionStateMenuTool').push('selectedChoice').state(viewName);
     }
 
     componentDidMount (){
