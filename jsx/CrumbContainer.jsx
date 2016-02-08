@@ -23,7 +23,7 @@ class CrumbContainer extends React.Component{
     render (){
         var cr = Object.keys(this.props.trailMap)//getting the latest trail i.e. names of nodes in the registry
         var crumbsUI = cr.map(function(key, index){
-            return(<Crumb  getLabel = {this.props.getLabel} getChildren = {this.props.getChildren}
+            return(<Crumb  getLabel = {this.props.getLabel} getChildren = {this.props.getChildren} faIcon = "fa fa-chevron-circle-right"
                            callback = {this.handleCrumbClick.bind(this, key, index)} key= {index} node= {this.props.trailMap[key]}/>);
         }.bind(this));
 

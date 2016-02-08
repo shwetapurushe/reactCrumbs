@@ -28,7 +28,7 @@ class Crumb extends React.Component{
         var iStyle = {paddingLeft : "2px"};
         return (
             <div onMouseOver = {this.onMouse} onMouseOut = {this.mouseOut} onClick = {this.props.callback} className = {crumbStyle}>{this.state.crumbLabel}
-                {this.props.getChildren(this.props.node) ? <i className = "fa fa-chevron-circle-right" style = {iStyle}></i> : null}
+                {this.props.getChildren(this.props.node) ? <i className = {this.props.faIcon} style = {iStyle}></i> : null}
             </div>
         );
     }
