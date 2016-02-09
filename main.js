@@ -14,7 +14,7 @@ window.weave = new Weave();//viz weave
 var busyStatus;
 busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 
-loadWeaveFile("blah.weave");
+//loadWeaveFile("blah.weave");
 
 function loadWeaveFile (filename){
     busyStatus.value = true;//setting default value as false
@@ -32,7 +32,7 @@ function fetchTree (){
     loadJSON(function(response){
         tree = JSON.parse(response);
         //MAIN COMPONENT RENDER
-        ReactDOM.render( <CrumbComponent label = "name" children = "children" tree = {tree}/>,document.getElementById("content"));
+        //ReactDOM.render( <CrumbComponent label = "name" children = "children" tree = {tree}/>,document.getElementById("content"));
     });
 }
 
@@ -42,7 +42,7 @@ function weaveReady (){
     console.log("weave is ready");
     busyStatus.value = false;//once weave is ready set to true
 
-   fetchTree();
+   //fetchTree();
 }
 
 //TODO move to a utility module later
