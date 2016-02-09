@@ -14,7 +14,7 @@ window.weave = new Weave();//viz weave
 var busyStatus;
 busyStatus = window.dashboard_weave.root.requestObject("isWeaveBusy", weavejs.core.LinkableBoolean, true);
 
-//loadWeaveFile("blah.weave");
+loadWeaveFile("ELM_Indicators_Dashboard.weave");
 
 function loadWeaveFile (filename){
     busyStatus.value = true;//setting default value as false
@@ -51,7 +51,7 @@ function loadJSON(callback) {
 
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', './lib/flare.json', true);
+    xobj.open('GET', './lib/Navigation.json', true);
     xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status == "200") {
             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode

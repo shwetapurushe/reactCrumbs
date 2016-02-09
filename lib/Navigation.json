@@ -1,0 +1,55 @@
+{
+    "name" : "Views",
+    "children" : [
+        {
+            "name" : "National",
+            "index" : 0,
+            "children" : [
+            	{
+            		"name": "National Health",
+            		"index": 1,
+            		"children": [
+            			{
+            				"name": "Emirate Health",
+            				"index": 2,
+            				"children": [
+            					{
+            						"name": "Ar Riyad Health",
+            						"index": 3,
+            						"children": [
+            							{
+            								"name": "Riyadh Health",
+            								"index": 4
+            							}
+            						]
+            					}
+            				]
+            			}
+            		]
+            	},
+            	{
+            		"name": "National Social Services",
+            		"index": 5,
+            		"children": [
+ 						{
+ 							"name": "Emirate Social Services",
+ 							"index": 6,
+ 							"children": [
+ 								{
+ 									"name": "Makkah Social Services",
+ 									"index": 7,
+ 									"children": [
+ 										{
+ 											"name": "Jeddah Social Services",
+ 											"index": 8
+ 										}
+ 									]
+ 								}
+ 							]
+ 						}
+ 					]   
+            	}
+            ]
+        }
+    ]
+}
