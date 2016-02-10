@@ -66,6 +66,8 @@
     var MME = ['MME', 200,50, 170, 130, 180];
     var mylineData = ['trend',70, 40, 60, 100, 140];
     var boxPlotCoordinates = ['BoxPlots',125.8, 121, 132, 116.8, 162];
+    //MAP THIS DATA TO DATA FROM WEAVE END
+
 
     var myData = {};
     myData.x = 'x';	myData.xFormat = "%Y-%m-%d";
@@ -413,6 +415,7 @@
             .height(height);
 
     //*********************MAP THIS DATA TO DATA FROM WEAVE
+    //right now pulls data from a csv to create boxes, we need a weave column here
     d3.csv("./lib/morley.csv", function(error, csv) {
         if (error) throw error;
 
