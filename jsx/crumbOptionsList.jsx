@@ -59,6 +59,7 @@ class CrumbOptionsList extends React.Component{
                              <input type = "text" value = {this.state.listFilter} onChange = {this.handleChange} className = "searchFilter"></input>
                             <i className = "fa fa-search"></i>
                          </div>
+                        <span className = "fa fa-times-circle"></span>
 
                 <div><ul>{listUI}</ul></div>
             </div>);

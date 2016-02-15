@@ -9,12 +9,15 @@ class CrumbComponent extends React.Component{
 
     constructor (props){
         super(props);
+        this.state = {listVisibility : false};
         this.tree = this.props.tree;//TODO decide whether to store the tree reference
         this.settings = this.settings ? this.settings : new CrumbComponentConfig();
         this.handleActiveCrumbChange = this.handleActiveCrumbChange.bind(this);
         this.updateRegistry = this.updateRegistry.bind(this);
         this.getTreeChildren = this.getTreeChildren.bind(this);
         this.getTreeLabel = this.getTreeLabel.bind(this);
+        this.toggleCrumbList = this.toggleCrumbList.bind(this);
+        this.closeCrumbList = this.closeCrumbList.bind(this);
 
         //init settings
         this.settings.activeCrumbName.value = this.getTreeLabel();
@@ -63,6 +66,15 @@ class CrumbComponent extends React.Component{
         }
     }
 
+    toggleCrumbList (){
+        if(this.state.listVisibility == false)
+            this.setState({listVisibility : !this.state.listVisibility});
+    }
+    closeCrumbList (){
+        this.setState({listVisibility : false});
+    }
+
+
     //callback whenever the active crumb name is changed
     handleActiveCrumbChange (){
         //get the new trail from the registry
@@ -78,18 +90,22 @@ class CrumbComponent extends React.Component{
     }
 
     componentWillUnmount (){
-        this.settings.activeCrumbName.removeCallback(this, handleActiveCrumbChange);
+        this.settings.activeCrumbName.removeCallback(this, this.handleActiveCrumbChange);
     }
 
     render (){
        this.settings.activeNode.value = this.registry[this.settings.activeCrumbName.value];
+        var CrumbList =  <div>
+                            <span className = "fa fa-times-circle" onClick = {this.closeCrumbList}></span>
+                            <CrumbOptionsList activeCrumbName = {this.settings.activeCrumbName} activeNode = {this.settings.activeNode} trailMap = {this.registry}
+                              getLabel = {this.getTreeLabel} getChildren = {this.getTreeChildren}/>
+                         </div>;
            return (
             <div>
-                <CrumbContainer getLabel = {this.getTreeLabel} getChildren = {this.getTreeChildren}
+                <CrumbContainer getLabel = {this.getTreeLabel} getChildren = {this.getTreeChildren} toggleCrumbList = {this.toggleCrumbList}
                                 activeIndex = {this.settings.activeIndex} activeCrumbName = {this.settings.activeCrumbName}
                                 activeNode = {this.settings.activeNode} trailMap = {this.registry} />
-                <CrumbOptionsList activeCrumbName = {this.settings.activeCrumbName} activeNode = {this.settings.activeNode} trailMap = {this.registry}
-                                  getLabel = {this.getTreeLabel} getChildren = {this.getTreeChildren}/>
+                {this.state.listVisibility ? CrumbList : null}
             </div>
         );
     }
