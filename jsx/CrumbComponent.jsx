@@ -96,9 +96,8 @@ class CrumbComponent extends React.Component{
     render (){
        this.settings.activeNode.value = this.registry[this.settings.activeCrumbName.value];
         var CrumbList =  <div>
-                            <span className = "fa fa-times-circle" onClick = {this.closeCrumbList}></span>
                             <CrumbOptionsList activeCrumbName = {this.settings.activeCrumbName} activeNode = {this.settings.activeNode} trailMap = {this.registry}
-                              getLabel = {this.getTreeLabel} getChildren = {this.getTreeChildren}/>
+                              getLabel = {this.getTreeLabel} getChildren = {this.getTreeChildren} close = {this.closeCrumbList}/>
                          </div>;
            return (
             <div>

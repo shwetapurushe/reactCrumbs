@@ -55,14 +55,13 @@ class CrumbOptionsList extends React.Component{
 
         if(listUI)
             return(<div className = "optionList">
+                        <div className="closeBtn fa fa-times-circle" onClick = {this.props.close}> </div>
                         <div className = "searchC">
                              <input type = "text" value = {this.state.listFilter} onChange = {this.handleChange} className = "searchFilter"></input>
                             <i className = "fa fa-search"></i>
                          </div>
-                        <span className = "fa fa-times-circle"></span>
-
-                <div><ul>{listUI}</ul></div>
-            </div>);
+                        <div><ul>{listUI}</ul></div>
+                  </div>);
         else
             return(<span></span>)
     }
