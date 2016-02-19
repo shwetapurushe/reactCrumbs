@@ -29,7 +29,7 @@ class C_ListItem extends React.Component{
         var iStyle = {paddingLeft : "2px"};
         var listStyle = this.state.hover ?  "onC_ItemHover" : null;
         return (<li onMouseOver = {this.mouseOver} onMouseOut = {this.mouseOut} className = {listStyle} onClick = {this.props.callback}> {this.props.getLabel(this.props.treeNode)}
-                        {this.props.getChildren(this.props.treeNode) ? <i className = "fa fa-caret-right" style = {iStyle}></i> :null}
+                        {this.props.getChildren(this.props.treeNode) ? <i className = "fa fa-chevron-circle-right" style = {iStyle}></i> :null}
                     </li>);
     }
 }

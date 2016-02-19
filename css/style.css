@@ -38,7 +38,7 @@
 }
 ul{
     list-style-type: none;
-    margin: 5px;
+    margin: 5px;font-size: 12px;
     /*line-height: 100%;*/
     padding:0;
 }
@@ -46,6 +46,7 @@ ul{
 .onC_ItemHover{
     cursor:pointer;
     background-color: #8edbff;
+    font-size: 12px;
 }
 
 .searchC{
