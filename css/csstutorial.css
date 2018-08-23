@@ -1,0 +1,24 @@
+#first
+{
+	font-style: italic;
+}
+
+#first strong
+{
+	color: green;
+}
+
+#first strong:first-child
+{
+	color: orange;
+}
+
+#second
+{
+	color:blue;
+}
+
+#second strong
+{
+	color: red;
+}

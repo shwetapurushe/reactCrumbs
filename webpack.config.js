@@ -5,7 +5,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports ={
-    entry : './main.js',
+    entry : './mainExp.js',
     output : {
                 path: __dirname + "/dist",
                 filename:'bundle.js',
